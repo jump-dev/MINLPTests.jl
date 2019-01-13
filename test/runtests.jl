@@ -51,15 +51,15 @@ for s in minlp_solvers
     # global required to support include statements
     global solver = s
     @testset "$(string(typeof(solver))) MINLP Tests" begin
-        include("minlp-cvx/tests.jl")
-        include("minlp/tests.jl")
+        include("nlp-mi-cvx/tests.jl")
+        include("nlp-mi/tests.jl")
     end
 end
 
 for s in poly_solvers
     # global required to support include statements
     global solver = s
-    @testset "$(string(typeof(solver))) NLP Tests" begin
+    @testset "$(string(typeof(solver))) Polynomial Tests" begin
         include("poly-cvx/tests.jl")
         include("poly/tests.jl")
     end
@@ -68,9 +68,9 @@ end
 for s in mipoly_solvers
     # global required to support include statements
     global solver = s
-    @testset "$(string(typeof(solver))) MINLP Tests" begin
-        include("mipoly-cvx/tests.jl")
-        include("mipoly/tests.jl")
+    @testset "$(string(typeof(solver))) MIPolynomial Tests" begin
+        include("poly-mi-cvx/tests.jl")
+        include("poly-mi/tests.jl")
     end
 end
 

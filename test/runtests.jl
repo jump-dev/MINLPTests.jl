@@ -5,15 +5,33 @@ using JuMP
 
 using Ipopt
 
+
 opt_tol = 1e-7
 sol_tol = 1e-7
+
+function check_status(status)
+    @test status == :Optimal
+end
+
+function check_objective(model, val)
+    @test isapprox(getobjectivevalue(model), val, atol=opt_tol)
+end
+
+function check_solution(vars, vals)
+    @assert length(vars) == length(vals)
+
+    for (var,val) in zip(vars, vals)
+        @test isapprox(getvalue(var), val, atol=sol_tol)
+    end
+end
+
 
 ipopt = IpoptSolver(print_level=0)
 
 nlp_solvers = [ipopt]
 minlp_solvers = []
 
-global solver = ipopt
+solver = ipopt
 
 
 @testset "JuMP MINLP Tests" begin

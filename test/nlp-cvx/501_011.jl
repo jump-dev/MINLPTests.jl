@@ -1,16 +1,10 @@
-# Test Goals:
-# - n dimentional nlp
-# Variants
-#   010 - binding constraint (all variables non-zero)
-#   011 - extra sqrt
-
 function nd_shpere(n=2)
     m = Model(solver=solver)
 
-    @variable(m, vars[1:n])
+    @variable(m, vars[1:n], start=1/n)
 
     @objective(m, Min, sum(-x for x in vars))
-    @NLconstraint(m, sum(x^2 for x in vars) <= 1.0)
+    @NLconstraint(m, sqrt(sum(x^2 for x in vars)) <= 1.0)
 
     status = solve(m)
 

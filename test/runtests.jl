@@ -45,7 +45,7 @@ poly_solvers = [ipopt]
 mipoly_solvers = [juniper]
 
 
-@testset "JuMP MINLP Tests" begin
+@testset "JuMP Model Tests" begin
 
 for s in nlp_solvers
     # global required to support include statements

@@ -8,7 +8,6 @@
     include("002_011.jl")
 end
 
-#=
 @testset "2D tests" begin
     include("101_010.jl")
     include("101_011.jl")
@@ -69,6 +68,7 @@ end
 
 @testset "nD tests" begin
     include("501_010.jl")
+    include("501_011.jl")
 end
-=#
+
 end

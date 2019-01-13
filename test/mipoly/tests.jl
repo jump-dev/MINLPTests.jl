@@ -1,3 +1,3 @@
-@testset "MIPolynomial Models" begin
+@testset "Nonconvex MIPolynomial Models" begin
 
 end

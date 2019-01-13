@@ -1,3 +1,3 @@
-@testset "Polynomial Models" begin
+@testset "Nonconvex Polynomial Models" begin
 
 end

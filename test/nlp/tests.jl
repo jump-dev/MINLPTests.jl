@@ -17,6 +17,13 @@
 
     include("005_010.jl")
     #include("005_011.jl") # "Unrecognized function "\" used in nonlinear expression."
+
+    include("006_010.jl")
+
+    include("007_010.jl")
+
+    include("008_010.jl")
+    #include("008_011.jl") # MethodError: no method matching getdual
 end
 
 end

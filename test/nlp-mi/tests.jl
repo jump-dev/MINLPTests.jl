@@ -19,6 +19,11 @@
 
     include("005_010.jl")
     # include("005_011.jl") # Unrecognized function "\" used in nonlinear expression.
+
+    # include("006_010.jl") # KeyError: key :user_function_1d not found
+
+    include("007_010.jl")
+    include("007_020.jl")
 end
 
 end

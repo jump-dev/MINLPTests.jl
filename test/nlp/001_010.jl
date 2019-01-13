@@ -1,6 +1,7 @@
 # Test Goals:
 # - mix of variable start values
 # - non-linear objective without constraints
+# - minimization objective
 
 m = Model(solver=solver)
 

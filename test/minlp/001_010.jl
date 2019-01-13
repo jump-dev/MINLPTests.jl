@@ -1,7 +1,9 @@
 # Test Goals:
 # - mix of variable start values
 # - non-linear objective without constraints
-# - integer varaible
+# - minimization objective
+# - integer variable
+# - mix of discrete and continuous variables
 
 m = Model(solver=solver)
 

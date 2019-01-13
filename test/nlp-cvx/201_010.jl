@@ -16,8 +16,6 @@ m = Model(solver=solver)
 
 status = solve(m)
 
-@test status == :Optimal
-@test isapprox(getobjectivevalue(m), -3/sqrt(3), atol=opt_tol)
-@test isapprox(getvalue(x), 1/sqrt(3), atol=sol_tol)
-@test isapprox(getvalue(y), 1/sqrt(3), atol=sol_tol)
-@test isapprox(getvalue(z), 1/sqrt(3), atol=sol_tol)
+check_status(status)
+check_objective(m, -3/sqrt(3))
+check_solution([x,y,z], [1/sqrt(3), 1/sqrt(3), 1/sqrt(3)])

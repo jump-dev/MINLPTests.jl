@@ -14,13 +14,10 @@ function nd_shpere(n=2)
     status = solve(m)
 
     #println(getobjectivevalue(m))
-    #println(getvalue(vars))
-    
-    @test status == :Optimal    
-    @test isapprox(getobjectivevalue(m), -n/sqrt(n), atol=opt_tol)
-    for x in vars
-        @test isapprox(getvalue(x), 1/sqrt(n), atol=sol_tol)
-    end
+
+    check_status(status)
+    check_objective(m, -n/sqrt(n))
+    check_solution(vars, [1/sqrt(n) for i in vars])
 end
 
 for n in 1:20

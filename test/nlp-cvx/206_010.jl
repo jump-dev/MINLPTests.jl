@@ -19,9 +19,6 @@ m = Model(solver=solver)
 
 status = solve(m)
 
-@test status == :Optimal
-# TODO, figure out why ipopt does not ensure 1e-8 on this case
-@test isapprox(getobjectivevalue(m), 4.0, atol=1e-7)
-@test isapprox(getvalue(x), 1.0, atol=sol_tol)
-@test isapprox(getvalue(y), 1.0, atol=1e-7)
-@test isapprox(getvalue(z), 1.0, atol=1e-7)
+check_status(status)
+check_objective(m, 4.0)
+check_solution([x,y,z], [1, 1, 1])

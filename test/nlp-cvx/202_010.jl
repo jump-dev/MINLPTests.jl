@@ -20,8 +20,6 @@ m = Model(solver=solver)
 
 status = solve(m)
 
-@test status == :Optimal
-@test isapprox(getobjectivevalue(m), -1, atol=opt_tol)
-@test isapprox(getvalue(x), 0.0, atol=sol_tol)
-@test isapprox(getvalue(y), 0.0, atol=sol_tol)
-@test isapprox(getvalue(z), 1.0, atol=sol_tol)
+check_status(status)
+check_objective(m, -1)
+check_solution([x,y,z], [0, 0, 1])

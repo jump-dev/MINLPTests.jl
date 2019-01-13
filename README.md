@@ -1,4 +1,8 @@
 # MINLPTests.jl
+
+master: [![Build Status](https://travis-ci.org/lanl-ansi/MINLPTests.jl.svg?branch=master)](https://travis-ci.org/lanl-ansi/MINLPTests.jl)
+moi: [![Build Status](https://travis-ci.org/lanl-ansi/MINLPTests.jl.svg?branch=moi)](https://travis-ci.org/lanl-ansi/MINLPTests.jl)
+
 This is a collection of JuMP models for testing nonlinear/polynomial solvers with and without discrete variables in JuMP.
 
 The `master` branch is compatible with the current release of JuMP (using MathProgBase).  A forthcoming `moi` branch will be used for testing the next release of JuMP.
@@ -120,7 +124,7 @@ z indicates a variant of a base problem
   * tan (nlp-mi/004_010)
   * user defined (nlp-mi/006_010)
 
-### Other Julia Functions
+### Untested Julia Functions
 A complete list is available [here](https://docs.julialang.org/en/v1/base/math/)
 
 * roots

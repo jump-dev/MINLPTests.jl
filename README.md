@@ -109,7 +109,7 @@ z indicates a variant of a base problem
 * non-linear objective (with offset const) + non-linear constraints (nlp-mi/003_011)
 * objective (with offset const) + non-linear constraints (nlp-mi/003_016)
 
-* status infeasible (nlp/007_010, 070_020)
+* status infeasible (nlp-mi/007_010, nlp-mi/070_020)
 
 * non-linear functions
   * \* (nlp-mi/004_010)

@@ -1,15 +1,24 @@
 # MINLPTests.jl
-Unit and Integration Tests for NLP and MINLP solvers
+This is a collection of JuMP models for testing nonlinear/polynomial solvers with and without discrete variables in JuMP.
 
 
-## Test Case Naming Conventions
+## Test Design Guidelines
+
+* Unit tests should be "easy" models, it should be possible for a non-global solver to find the global solution
+* Mathmatical property tests can be more difficult
+
+
+## Test Naming Conventions
 
 Directories:
 * nlp - nonconvex NLP models
 * nlp-cvx - convex NLP models
 * minlp - nonconvex MINLP models
 * minlp-cvx - convex MINLP models
-
+* poly - nonconvex polynomial models
+* poly-cvx - convex polynomial models
+* mipoly - nonconvex polynomial models
+* mipoly-cvx - convex polynomial models
 
 File Names:
 * 0xx_yyz - unit tests

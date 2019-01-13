@@ -32,6 +32,8 @@ juniper = JuniperSolver(IpoptSolver(print_level=0), log_levels=[])
 
 nlp_solvers = [ipopt]
 minlp_solvers = [juniper]
+poly_solvers = [ipopt]
+mipoly_solvers = [juniper]
 
 
 @testset "JuMP MINLP Tests" begin
@@ -51,6 +53,24 @@ for s in minlp_solvers
     @testset "$(string(typeof(solver))) MINLP Tests" begin
         include("minlp-cvx/tests.jl")
         include("minlp/tests.jl")
+    end
+end
+
+for s in poly_solvers
+    # global required to support include statements
+    global solver = s
+    @testset "$(string(typeof(solver))) NLP Tests" begin
+        include("poly-cvx/tests.jl")
+        include("poly/tests.jl")
+    end
+end
+
+for s in mipoly_solvers
+    # global required to support include statements
+    global solver = s
+    @testset "$(string(typeof(solver))) MINLP Tests" begin
+        include("mipoly-cvx/tests.jl")
+        include("mipoly/tests.jl")
     end
 end
 

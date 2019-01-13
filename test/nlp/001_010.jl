@@ -2,6 +2,7 @@
 # - mix of variable start values
 # - non-linear objective without constraints
 # - minimization objective
+# - functions ^, exp, cos
 
 m = Model(solver=solver)
 

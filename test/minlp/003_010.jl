@@ -2,6 +2,7 @@
 # - none have start values
 # - non-linear objective and non-linear constraints
 # - maximization objective
+# - functions sqrt, sin
 # - integer variables
 
 m = Model(solver=solver)

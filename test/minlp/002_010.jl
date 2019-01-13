@@ -1,6 +1,7 @@
 # Test Goals:
 # - all have start values
 # - non-linear constraints without objective
+# - functions log
 # - binary variable
 
 m = Model(solver=solver)

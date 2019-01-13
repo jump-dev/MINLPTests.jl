@@ -4,8 +4,9 @@ This is a collection of JuMP models for testing nonlinear/polynomial solvers wit
 
 ## Test Design Guidelines
 
+* Tests are into broad categories based on the scope of typical solvers (e.g. continuous, convex functions, polynomial, ...)
 * Unit tests should be "easy" models, it should be possible for a non-global solver to find the global solution
-* Mathmatical property tests can be more difficult
+* Mathematical property tests can be more difficult
 
 
 ## Test Naming Conventions

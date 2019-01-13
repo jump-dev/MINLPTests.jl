@@ -1,6 +1,6 @@
 @testset "Convex NLP Models" begin
 
-@testset  "miscellaneous tests" begin
+@testset  "unit tests" begin
     include("001_010.jl")
     include("001_011.jl")
 
@@ -8,6 +8,7 @@
     include("002_011.jl")
 end
 
+#=
 @testset "2D tests" begin
     include("101_010.jl")
     include("101_011.jl")
@@ -69,5 +70,5 @@ end
 @testset "nD tests" begin
     include("501_010.jl")
 end
-
+=#
 end

@@ -1,6 +1,8 @@
 # MINLPTests.jl
 This is a collection of JuMP models for testing nonlinear/polynomial solvers with and without discrete variables in JuMP.
 
+The `master` branch is compatible with the current release of JuMP (using MathProgBase).  A forthcoming `moi` branch will be used for testing the next release of JuMP.
+
 
 ## Test Design Guidelines
 
@@ -35,7 +37,7 @@ z indicates a variant of a base problem
 ### NLP
 * non-linear model without stating values (nlp/003_010)
 * non-linear model with stating values (nlp/002_010)
-* non-linear model partical stating values (nlp/001_010)
+* non-linear model partial stating values (nlp/001_010)
 
 * non-linear objective only (nlp/001_010)
 * non-linear constraints only (nlp/002_010)
@@ -46,8 +48,8 @@ z indicates a variant of a base problem
 * non-linear objective + quard constraints (nlp/004_010)
 * non-linear objective + quard constraints (as NL) (nlp/004_011)
 
-* minization objective (nlp/001_010)
-* minization objective (nlp/003_010)
+* minimization objective (nlp/001_010)
+* maximization objective (nlp/003_010)
 
 * linear objective + non-linear constraints (nlp/003_012)
 * linear objective (as NL) + non-linear constraints (nlp/003_013)
@@ -77,10 +79,10 @@ z indicates a variant of a base problem
 ### MINLP
 * non-linear integer variable (nlp-mi/001_010)
 * non-linear binary variable (nlp-mi/002_010)
-* mix of continious and discrete variables (nlp-mi/001_010)
+* mix of continuous and discrete variables (nlp-mi/001_010)
 * non-linear model without stating values (nlp-mi/003_010)
 * non-linear model with stating values (nlp-mi/002_010)
-* non-linear model partical stating values (nlp-mi/001_010)
+* non-linear model partial stating values (nlp-mi/001_010)
 
 * non-linear objective only (nlp-mi/001_010)
 * non-linear constraints only (nlp-mi/002_010)
@@ -91,8 +93,8 @@ z indicates a variant of a base problem
 * non-linear objective + quard constraints (nlp-mi/004_010)
 * non-linear objective + quard constraints (as NL) (nlp-mi/004_011)
 
-* minization objective (nlp-mi/001_010)
-* minization objective (nlp-mi/003_010)
+* minimization objective (nlp-mi/001_010)
+* maximization objective (nlp-mi/003_010)
 
 * linear objective + non-linear constraints (nlp-mi/003_012)
 * linear objective (as NL) + non-linear constraints (nlp-mi/003_013)

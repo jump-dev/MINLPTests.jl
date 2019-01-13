@@ -14,6 +14,9 @@
 
     include("004_010.jl")
     include("004_011.jl")
+
+    include("005_010.jl")
+    #include("005_011.jl") # "Unrecognized function "\" used in nonlinear expression."
 end
 
 end

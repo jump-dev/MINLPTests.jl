@@ -1,7 +1,8 @@
 # MINLPTests.jl
 
-master: [![Build Status](https://travis-ci.org/lanl-ansi/MINLPTests.jl.svg?branch=master)](https://travis-ci.org/lanl-ansi/MINLPTests.jl)
-moi: [![Build Status](https://travis-ci.org/lanl-ansi/MINLPTests.jl.svg?branch=moi)](https://travis-ci.org/lanl-ansi/MINLPTests.jl)
+**master:** [![Build Status](https://travis-ci.org/lanl-ansi/MINLPTests.jl.svg?branch=master)](https://travis-ci.org/lanl-ansi/MINLPTests.jl)
+
+**moi:** [![Build Status](https://travis-ci.org/lanl-ansi/MINLPTests.jl.svg?branch=moi)](https://travis-ci.org/lanl-ansi/MINLPTests.jl)
 
 This is a collection of JuMP models for testing nonlinear/polynomial solvers with and without discrete variables in JuMP.
 

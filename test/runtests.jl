@@ -3,36 +3,6 @@ using MINLPTests
 using Test
 using JuMP
 
-
-opt_tol = 1e-7
-sol_tol = 1e-7
-dual_tol = 1e-7
-
-function check_status(status; target=:Optimal)
-    @test status == target
-end
-
-function check_objective(model, val)
-    @test isapprox(getobjectivevalue(model), val, atol=opt_tol)
-end
-
-function check_solution(vars, vals)
-    @assert length(vars) == length(vals)
-
-    for (var,val) in zip(vars, vals)
-        @test isapprox(getvalue(var), val, atol=sol_tol)
-    end
-end
-
-function check_dual(cons, vals)
-    @assert length(cons) == length(vals)
-
-    for (con,val) in zip(cons, vals)
-        @test isapprox(getdual(con), val, atol=dual_tol)
-    end
-end
-
-
 using Ipopt
 using Juniper
 
@@ -47,39 +17,31 @@ mipoly_solvers = [juniper]
 
 @testset "JuMP Model Tests" begin
 
-for s in nlp_solvers
-    # global required to support include statements
-    global solver = s
+for solver in nlp_solvers
     @testset "$(string(typeof(solver))) NLP Tests" begin
-        include("nlp-cvx/tests.jl")
-        include("nlp/tests.jl")
+        MINLPTests.test_nlp(solver)
+        MINLPTests.test_nlp_cvx(solver)
     end
 end
 
-for s in minlp_solvers
-    # global required to support include statements
-    global solver = s
+for solver in minlp_solvers
     @testset "$(string(typeof(solver))) MINLP Tests" begin
-        include("nlp-mi-cvx/tests.jl")
-        include("nlp-mi/tests.jl")
+        MINLPTests.test_nlp_mi(solver)
+        MINLPTests.test_nlp_mi_cvx(solver)
     end
 end
 
-for s in poly_solvers
-    # global required to support include statements
-    global solver = s
+for solver in poly_solvers
     @testset "$(string(typeof(solver))) Polynomial Tests" begin
-        include("poly-cvx/tests.jl")
-        include("poly/tests.jl")
+        MINLPTests.test_poly(solver)
+        MINLPTests.test_poly_cvx(solver)
     end
 end
 
-for s in mipoly_solvers
-    # global required to support include statements
-    global solver = s
+for solver in mipoly_solvers
     @testset "$(string(typeof(solver))) MIPolynomial Tests" begin
-        include("poly-mi-cvx/tests.jl")
-        include("poly-mi/tests.jl")
+        MINLPTests.test_poly_mi(solver)
+        MINLPTests.test_poly_mi_cvx(solver)
     end
 end
 

@@ -4,15 +4,15 @@ using Test
 using JuMP
 
 using Ipopt
-using Juniper
+#using Juniper
 
 ipopt = IpoptSolver(print_level=0)
-juniper = JuniperSolver(IpoptSolver(print_level=0), log_levels=[])
+#juniper = JuniperSolver(IpoptSolver(print_level=0), log_levels=[])
 
 nlp_solvers = [ipopt]
-minlp_solvers = [juniper]
+minlp_solvers = []
 poly_solvers = [ipopt]
-mipoly_solvers = [juniper]
+mipoly_solvers = []
 
 
 @testset "JuMP Model Tests" begin

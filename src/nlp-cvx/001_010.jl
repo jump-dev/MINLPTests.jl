@@ -6,7 +6,7 @@
 #   010 - binding constraints
 #   011 - non-binding constraints 
 
-m = Model(solver=solver)
+m = Model(optimizer)
 
 @variable(m, x)
 @variable(m, y)
@@ -18,8 +18,8 @@ m = Model(solver=solver)
 @constraint(m, 10*x-y >= -20)
 @constraint(m, -x+2*y <= 8)
 
-status = solve(m)
+optimize!(m)
 
-check_status(status)
+check_status(m)
 check_objective(m, -2.0430107680954848)
 check_solution([x,y], [-2.0430107680954848, -0.4301075068564087])

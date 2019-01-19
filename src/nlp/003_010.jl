@@ -4,7 +4,7 @@
 # - maximization objective
 # - functions sqrt, sin
 
-m = Model(solver=solver)
+m = Model(optimizer)
 
 @variable(m, x)
 @variable(m, y)
@@ -13,8 +13,8 @@ m = Model(solver=solver)
 @NLconstraint(m, y >= exp(x-2) - 2)
 @NLconstraint(m, y <= sin(x)^2 + 2)
 
-status = solve(m)
+optimize!(m)
 
-check_status(status)
+check_status(m)
 check_objective(m, 1.8715859432160853)
 check_solution([x,y], [3.4028339561149266, 2.0667085252601867])

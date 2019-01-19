@@ -5,7 +5,7 @@
 # Variants
 #   010 - intersection set
 
-m = Model(solver=solver)
+m = Model(optimizer)
 
 @variable(m, x)
 @variable(m, y >= 0, start=0.1)
@@ -16,8 +16,8 @@ m = Model(solver=solver)
 @NLconstraint(m, y*e^(-x/y) <= z)
 @NLconstraint(m, x^2 + y^2 <= -z+5)
 
-status = solve(m)
+optimize!(m)
 
-check_status(status)
+check_status(m)
 check_objective(m, 1.7912878443121907)
 check_solution([x,y,z], [0.0, 1.7912878443121907, 1.7912878443121907])

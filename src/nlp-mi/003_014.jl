@@ -1,7 +1,7 @@
 # Test Goals:
 # - quadratic objective and non-linear constraints
 
-m = Model(solver=solver)
+m = Model(optimizer)
 
 @variable(m, x, Int)
 @variable(m, y, Int)
@@ -10,8 +10,8 @@ m = Model(solver=solver)
 @NLconstraint(m, y >= exp(x-2) - 2)
 @NLconstraint(m, y <= sin(x)^2 + 2)
 
-status = solve(m)
+optimize!(m)
 
-check_status(status)
+check_status(m)
 check_objective(m, 11.000000198181866)
 check_solution([x,y], [3, 2])

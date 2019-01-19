@@ -1,7 +1,7 @@
 # Test Goals:
 # - user defined functions
 
-m = Model(solver=solver)
+m = Model(optimizer)
 
 function user_function_1d(x)
     if x >= 0
@@ -24,8 +24,8 @@ JuMP.register(m, :user_function_2d, 2, user_function_2d, autodiff=true)
 @NLconstraint(m, y >= user_function_1d(x))
 @NLconstraint(m, user_function_2d(x,y) <= 2)
 
-status = solve(m)
+optimize!(m)
 
-check_status(status)
+check_status(m)
 check_objective(m, 1.8813786425753092)
 check_solution([x,y], [0.7546057578960682, 1.1267728846792409])

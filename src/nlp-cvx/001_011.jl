@@ -1,4 +1,4 @@
-m = Model(solver=solver)
+m = Model(optimizer)
 
 @variable(m, x)
 @variable(m, y)
@@ -10,8 +10,8 @@ m = Model(solver=solver)
 @constraint(m, 10*x-y >= -20)
 @constraint(m, -x+2*y <= 8)
 
-status = solve(m)
+optimize!(m)
 
-check_status(status)
+check_status(m)
 check_objective(m, 0.0)
 check_solution([x,y], [1.0, 2.0])

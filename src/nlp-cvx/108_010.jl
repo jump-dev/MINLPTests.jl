@@ -8,7 +8,7 @@
 #   012 - intersection point
 #   013 - one binding constraint
 
-m = Model(solver=solver)
+m = Model(optimizer)
 
 @variable(m, x >= 0)
 @variable(m, y >= 0)
@@ -17,8 +17,8 @@ m = Model(solver=solver)
 @NLconstraint(m, 2*x^2 - 4x*y - 4*x + 4 <= y)
 @NLconstraint(m, y^2 <= -x+2)
 
-status = solve(m)
+optimize!(m)
 
-check_status(status)
+check_status(m)
 check_objective(m, 0)
 check_solution([x,y], [1, 0.75])

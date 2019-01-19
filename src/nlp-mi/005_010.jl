@@ -1,7 +1,7 @@
 # Test Goals:
 # - function /
 
-m = Model(solver=solver)
+m = Model(optimizer)
 
 @variable(m, x >= 0, Int)
 @variable(m, y >= 0)
@@ -11,8 +11,8 @@ m = Model(solver=solver)
 @NLconstraint(m, x >= y^(-2) - 0.5)
 @NLconstraint(m, 4 / (x+y+0.1) >= 1)
 
-status = solve(m)
+optimize!(m)
 
-check_status(status)
+check_status(m)
 check_objective(m, 1.8164965727459055)
 check_solution([x,y], [1, 0.816496581496872])

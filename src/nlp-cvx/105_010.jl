@@ -8,7 +8,7 @@
 #   013 - one binding constraint
 
 
-m = Model(solver=solver)
+m = Model(optimizer)
 
 @variable(m, x, start=0.1)
 @variable(m, y)
@@ -17,8 +17,8 @@ m = Model(solver=solver)
 @NLconstraint(m, exp(x-2.0) - 0.5 <= y)
 @NLconstraint(m, log(x) + 0.5 >= y)
 
-status = solve(m)
+optimize!(m)
 
-check_status(status)
+check_status(m)
 check_objective(m, -4.176004405036646)
 check_solution([x,y], [2.687422019398147, 1.488582385638499])

@@ -6,7 +6,7 @@
 #   011 - binding constraint (both variables non-zero)
 #   012 - binding constraint (both variables non-zero)
 
-m = Model(solver=solver)
+m = Model(optimizer)
 
 @variable(m, x)
 @variable(m, y)
@@ -14,8 +14,8 @@ m = Model(solver=solver)
 @NLobjective(m, Min, exp(x))
 @NLconstraint(m, x^2 + y^2 <= 1.0)
 
-status = solve(m)
+optimize!(m)
 
-check_status(status)
+check_status(m)
 check_objective(m, exp(-1))
 check_solution([x,y], [-1.0, 0.0])

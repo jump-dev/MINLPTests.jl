@@ -5,7 +5,7 @@
 # Variants
 #   010 - intersection set
 
-m = Model(solver=solver)
+m = Model(optimizer)
 
 @variable(m, x, start=0.1)
 @variable(m, y, start=0.1)
@@ -15,8 +15,8 @@ m = Model(solver=solver)
 @NLconstraint(m, sqrt(x^2 + y^2) <= z-0.25)
 @NLconstraint(m, x^2 + y^2 <= -z+1)
 
-status = solve(m)
+optimize!(m)
 
-check_status(status)
+check_status(m)
 check_objective(m, -1/sqrt(2))
 check_solution([x,y,z], [-sqrt(1/8), -sqrt(1/8), 3/4])

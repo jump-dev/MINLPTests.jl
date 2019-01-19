@@ -1,4 +1,4 @@
-m = Model(solver=solver)
+m = Model(optimizer)
 
 @variable(m, x)
 @variable(m, y)
@@ -7,8 +7,8 @@ m = Model(solver=solver)
 @NLconstraint(m, x^2 <= y)
 @NLconstraint(m, -x^2 + 1 >= y)
 
-status = solve(m)
+optimize!(m)
 
-check_status(status)
+check_status(m)
 check_objective(m, -1)
 check_solution([x,y], [0, 1])

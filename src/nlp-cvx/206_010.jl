@@ -5,7 +5,7 @@
 # Variants
 #   010 - intersection set
 
-m = Model(solver=solver)
+m = Model(optimizer)
 
 # NOTE, starting any of these at 0.0 will segfault libcoinmumps
 @variable(m, x >= 0, start=0.1)
@@ -17,8 +17,8 @@ m = Model(solver=solver)
 @NLconstraint(m, x <= z^(0.7)*y^(0.3))
 @NLconstraint(m, x^2 + y^2 <= z+1)
 
-status = solve(m)
+optimize!(m)
 
-check_status(status)
+check_status(m)
 check_objective(m, 4.0)
 check_solution([x,y,z], [1, 1, 1])

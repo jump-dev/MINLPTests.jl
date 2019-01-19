@@ -1,7 +1,7 @@
 # Test Goals:
 # - infeasible model
 
-m = Model(solver=solver)
+m = Model(optimizer)
 
 @variable(m, x, Int)
 @variable(m, y, Int)
@@ -9,6 +9,6 @@ m = Model(solver=solver)
 @NLconstraint(m, y == exp(x))
 @constraint(m, x == y^2)
 
-status = solve(m)
+optimize!(m)
 
-check_status(status, target=:Infeasible)
+check_status(m, termination_targe=JuMP.MOI.LOCALLY_INFEASIBLE, primal_target=JuMP.MOI.INFEASIBLE_POINT)

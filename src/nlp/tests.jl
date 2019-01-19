@@ -1,5 +1,5 @@
-function test_nlp(s)
-    global solver = s
+function test_nlp(o)
+    global optimizer = o
 
     test_dir = dirname(@__FILE__)
 

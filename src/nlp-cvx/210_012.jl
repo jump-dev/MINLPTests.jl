@@ -1,4 +1,4 @@
-m = Model(solver=solver)
+m = Model(optimizer)
 
 @variable(m, x, start=1.5)
 @variable(m, y, start=1.0)
@@ -7,8 +7,8 @@ m = Model(solver=solver)
 @objective(m, Min, (x-1.0)^2 + (y-1.0)^2 + (z-1.0)^2)
 @NLconstraint(m, x^2 + y^2 + z^2 <= 1.0)
 
-status = solve(m)
+optimize!(m)
 
-check_status(status)
+check_status(m)
 check_objective(m, 0.535898380052066)
 check_solution([x,y,z], [1/sqrt(3), 1/sqrt(3), 1/sqrt(3)])

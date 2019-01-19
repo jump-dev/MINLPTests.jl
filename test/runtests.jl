@@ -6,7 +6,7 @@ using JuMP
 using Ipopt
 #using Juniper
 
-ipopt = IpoptSolver(print_level=0)
+ipopt = JuMP.with_optimizer(Ipopt.Optimizer, print_level=0)
 #juniper = JuniperSolver(IpoptSolver(print_level=0), log_levels=[])
 
 nlp_solvers = [ipopt]

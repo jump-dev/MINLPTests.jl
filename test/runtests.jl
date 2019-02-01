@@ -5,9 +5,11 @@ using JuMP
 
 using Ipopt
 #using Juniper
+#using KNITRO
 
 ipopt = JuMP.with_optimizer(Ipopt.Optimizer, print_level=0)
 #juniper = JuniperSolver(IpoptSolver(print_level=0), log_levels=[])
+#knitro = JuMP.with_optimizer(KNITRO.Optimizer, outlev=0, opttol=1e-8)
 
 nlp_solvers = [ipopt]
 minlp_solvers = []

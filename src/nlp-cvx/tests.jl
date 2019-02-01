@@ -1,5 +1,5 @@
 function test_nlp_cvx(s)
-    global solver = s
+    global optimizer = s
 
     test_dir = dirname(@__FILE__)
 

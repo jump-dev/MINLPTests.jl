@@ -6,7 +6,7 @@ function nlp_cvx_106_010(optimizer, objective_tol, primal_tol, dual_tol)
     #   010 - intersection point
     #   011 - intersection point
     
-    m = Model(solver=solver)
+    m = Model(solver = optimizer)
     
     @variable(m, -3 <= x <= 3)
     @variable(m, -1 <= y <= 1)

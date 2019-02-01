@@ -6,7 +6,7 @@ function nlp_cvx_206_010(optimizer, objective_tol, primal_tol, dual_tol)
     # Variants
     #   010 - intersection set
     
-    m = Model(solver=solver)
+    m = Model(solver = optimizer)
     
     # NOTE, starting any of these at 0.0 will segfault libcoinmumps
     @variable(m, x >= 0, start=0.1)

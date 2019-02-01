@@ -5,7 +5,7 @@ function nlp_003_010(optimizer, objective_tol, primal_tol, dual_tol)
     # - maximization objective
     # - functions sqrt, sin
     
-    m = Model(solver=solver)
+    m = Model(solver = optimizer)
     
     @variable(m, x)
     @variable(m, y)

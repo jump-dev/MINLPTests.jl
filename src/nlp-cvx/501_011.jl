@@ -1,6 +1,6 @@
 function nlp_cvx_501_011(optimizer, objective_tol, primal_tol, dual_tol)
     function nd_shpere(n=2)
-        m = Model(solver=solver)
+        m = Model(solver = optimizer)
     
         @variable(m, vars[1:n], start=1/n)
     

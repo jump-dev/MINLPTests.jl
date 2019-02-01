@@ -1,5 +1,5 @@
 function nlp_cvx_101_012(optimizer, objective_tol, primal_tol, dual_tol)
-    m = Model(solver=solver)
+    m = Model(solver = optimizer)
     
     @variable(m, -2 <= x <= 2)
     @variable(m, -2 <= y <= 2)

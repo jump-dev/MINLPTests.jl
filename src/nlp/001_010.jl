@@ -5,7 +5,7 @@ function nlp_001_010(optimizer, objective_tol, primal_tol, dual_tol)
     # - minimization objective
     # - functions ^, exp, cos
     
-    m = Model(solver=solver)
+    m = Model(solver = optimizer)
     
     @variable(m, x, start=1)
     @variable(m, y, start=2.12)

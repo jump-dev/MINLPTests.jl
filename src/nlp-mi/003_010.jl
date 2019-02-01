@@ -6,7 +6,7 @@ function nlp_mi_003_010(optimizer, objective_tol, primal_tol, dual_tol)
     # - functions sqrt, sin
     # - integer variables
     
-    m = Model(solver=solver)
+    m = Model(solver = optimizer)
     
     @variable(m, x, Int)
     @variable(m, y, Int)

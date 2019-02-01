@@ -6,7 +6,7 @@ function nlp_cvx_501_010(optimizer, objective_tol, primal_tol, dual_tol)
     #   011 - extra sqrt
     
     function nd_shpere(n=2)
-        m = Model(solver=solver)
+        m = Model(solver = optimizer)
     
         @variable(m, vars[1:n])
     

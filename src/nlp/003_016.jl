@@ -2,7 +2,7 @@ function nlp_003_016(optimizer, objective_tol, primal_tol, dual_tol)
     # Test Goals:
     # - objective with offset
     
-    m = Model(solver=solver)
+    m = Model(solver = optimizer)
     
     @variable(m, x)
     @variable(m, y)

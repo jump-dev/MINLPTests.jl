@@ -2,7 +2,7 @@ function nlp_006_010(optimizer, objective_tol, primal_tol, dual_tol)
     # Test Goals:
     # - user defined functions
     
-    m = Model(solver=solver)
+    m = Model(solver = optimizer)
     
     function user_function_1d(x)
         if x >= 0

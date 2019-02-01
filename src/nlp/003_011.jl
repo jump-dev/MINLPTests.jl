@@ -3,7 +3,7 @@ function nlp_003_011(optimizer, objective_tol, primal_tol, dual_tol)
     # - non-linear objective and non-linear constraints
     # - NLobjective with offset
     
-    m = Model(solver=solver)
+    m = Model(solver = optimizer)
     
     @variable(m, x)
     @variable(m, y)

@@ -2,7 +2,7 @@ function nlp_005_011(optimizer, objective_tol, primal_tol, dual_tol)
     # Test Goals:
     # - function \
     
-    m = Model(solver=solver)
+    m = Model(solver = optimizer)
     
     @variable(m, x >= 0)
     @variable(m, y >= 0)

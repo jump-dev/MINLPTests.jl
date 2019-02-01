@@ -9,7 +9,7 @@ function nlp_cvx_108_010(optimizer, objective_tol, primal_tol, dual_tol)
     #   012 - intersection point
     #   013 - one binding constraint
     
-    m = Model(solver=solver)
+    m = Model(solver = optimizer)
     
     @variable(m, x >= 0)
     @variable(m, y >= 0)

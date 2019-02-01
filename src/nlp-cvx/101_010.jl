@@ -7,7 +7,7 @@ function nlp_cvx_101_010(optimizer, objective_tol, primal_tol, dual_tol)
     #   011 - binding constraint (one variable non-zero)
     #   012 - max objective
     
-    m = Model(solver=solver)
+    m = Model(solver = optimizer)
     
     @variable(m, -2 <= x <= 2)
     @variable(m, -2 <= y <= 2)

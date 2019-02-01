@@ -7,7 +7,7 @@ function nlp_cvx_001_010(optimizer, objective_tol, primal_tol, dual_tol)
     #   010 - binding constraints
     #   011 - non-binding constraints 
     
-    m = Model(solver=solver)
+    m = Model(solver = optimizer)
     
     @variable(m, x)
     @variable(m, y)

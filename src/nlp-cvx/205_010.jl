@@ -6,7 +6,7 @@ function nlp_cvx_205_010(optimizer, objective_tol, primal_tol, dual_tol)
     # Variants
     #   010 - intersection set
 
-    m = Model(solver=solver)
+    m = Model(solver = optimizer)
 
     @variable(m, x)
     @variable(m, y >= 0, start=0.1)

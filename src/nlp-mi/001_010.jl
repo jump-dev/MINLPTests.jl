@@ -7,7 +7,7 @@ function nlp_mi_001_010(optimizer, objective_tol, primal_tol, dual_tol)
     # - integer variable
     # - mix of discrete and continuous variables
     
-    m = Model(solver=solver)
+    m = Model(solver = optimizer)
     
     @variable(m, x, start=1)
     @variable(m, y >= 0.1, start=3.12, Int)

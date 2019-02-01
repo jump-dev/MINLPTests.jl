@@ -4,7 +4,7 @@ function nlp_002_010(optimizer, objective_tol, primal_tol, dual_tol)
     # - non-linear constraints without objective
     # - functions log
     
-    m = Model(solver=solver)
+    m = Model(solver = optimizer)
     
     @variable(m, x, start=  1)
     @variable(m, y, start= -1.12)

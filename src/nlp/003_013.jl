@@ -2,7 +2,7 @@ function nlp_003_013(optimizer, objective_tol, primal_tol, dual_tol)
     # Test Goals:
     # - linear objective as NLobjective and non-linear constraints
     
-    m = Model(solver=solver)
+    m = Model(solver = optimizer)
     
     @variable(m, x)
     @variable(m, y)

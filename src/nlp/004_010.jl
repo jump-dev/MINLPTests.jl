@@ -3,7 +3,7 @@ function nlp_004_010(optimizer, objective_tol, primal_tol, dual_tol)
     # - non-linear objective and linear, quadratic constraints
     # - functions tan, abs, *
     
-    m = Model(solver=solver)
+    m = Model(solver = optimizer)
     
     @variable(m, -1 <= x <= 1)
     @variable(m, y)

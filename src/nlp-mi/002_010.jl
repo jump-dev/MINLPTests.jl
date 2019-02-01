@@ -5,7 +5,7 @@ function nlp_mi_002_010(optimizer, objective_tol, primal_tol, dual_tol)
     # - functions log
     # - binary variable
     
-    m = Model(solver=solver)
+    m = Model(solver = optimizer)
     
     @variable(m, x >= 0.9, start=  1, Int)
     @variable(m, y, start= -1.12, Bin)

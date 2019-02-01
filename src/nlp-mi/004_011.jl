@@ -2,7 +2,7 @@ function nlp_mi_004_011(optimizer, objective_tol, primal_tol, dual_tol)
     # Test Goals:
     # - non-linear objective and linear, quadratic constraints as NL
     
-    m = Model(solver=solver)
+    m = Model(solver = optimizer)
     
     @variable(m, -1 <= x <= 1)
     @variable(m, y)

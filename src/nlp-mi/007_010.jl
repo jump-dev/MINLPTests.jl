@@ -2,7 +2,7 @@ function nlp_mi_007_010(optimizer, objective_tol, primal_tol, dual_tol)
     # Test Goals:
     # - infeasible model
     
-    m = Model(solver=solver)
+    m = Model(solver = optimizer)
     
     @variable(m, x, Int)
     @variable(m, y, Int)

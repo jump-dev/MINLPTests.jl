@@ -7,7 +7,7 @@ function nlp_cvx_210_010(optimizer, objective_tol, primal_tol, dual_tol)
     #   011 - binding constraint
     #   012 - binding constraint, different starting point
     
-    m = Model(solver=solver)
+    m = Model(solver = optimizer)
     
     @variable(m, x)
     @variable(m, y)

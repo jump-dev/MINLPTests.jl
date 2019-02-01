@@ -2,7 +2,7 @@ function nlp_mi_007_020(optimizer, objective_tol, primal_tol, dual_tol)
     # Test Goals:
     # - infeasible model, due to integrality
     
-    m = Model(solver=solver)
+    m = Model(solver = optimizer)
     
     @variable(m, -2 <= x <= 3, Int)
     @variable(m, y, Bin)

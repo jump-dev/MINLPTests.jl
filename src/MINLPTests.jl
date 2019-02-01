@@ -94,6 +94,14 @@ function test_nlp_cvx(
         primal_tol = primal_tol, dual_tol = dual_tol)
 end
 
+function test_nlp_mi(
+        optimizer; exclude = String[], objective_tol = 1e-7,
+        primal_tol = 1e-7, dual_tol = 1e-7)
+    test_directory("nlp-mi", optimizer;
+        exclude = exclude, objective_tol = objective_tol,
+        primal_tol = primal_tol, dual_tol = dual_tol)
+end
+
 ### Tests that haven't been updated.
 
 include("nlp-mi-cvx/tests.jl")

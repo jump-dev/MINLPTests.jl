@@ -20,7 +20,9 @@ const MIPOLY_SOLVERS = [JUNIPER]
     end
     @testset "$(string(typeof(solver))): nlp_mi" for solver in MINLP_SOLVERS
         MINLPTests.test_nlp_mi(solver, exclude = [
-            "005_011"  # Uses the function `\`
+            "005_011",  # Uses the function `\`
+            "003_013",  # Bug in Juniper - handling of expression graph?
+            "006_010"   # Bug in Juniper - handling of user-defined functions.
         ])
         MINLPTests.test_nlp_mi_cvx(solver)
     end

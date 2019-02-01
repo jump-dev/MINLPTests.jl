@@ -1,4 +1,4 @@
-function nlp_cvx_106_011(optimizer)
+function nlp_cvx_106_011(optimizer, objective_tol, primal_tol, dual_tol)
     m = Model(optimizer)
     
     @variable(m, -3 <= x <= 3)
@@ -11,7 +11,8 @@ function nlp_cvx_106_011(optimizer)
     optimize!(m)
     
     check_status(m)
-    check_objective(m, -0.7868226265935826)
-    check_solution([x,y], [-0.5955231764562057, -0.1912994501373769])
+    check_objective(m, -0.7868226265935826, tol = objective_tol)
+    check_solution([x,y], [-0.5955231764562057, -0.1912994501373769], tol = primal_tol)
     
 end
+

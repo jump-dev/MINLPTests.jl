@@ -1,27 +1,26 @@
-OPT_TOL = 1e-7
-SOL_TOL = 1e-7
-DUAL_TOL = 1e-7
-
-function check_status(model; termination_targe=JuMP.MOI.LOCALLY_SOLVED, primal_target=JuMP.MOI.FEASIBLE_POINT)
-    @test JuMP.termination_status(model) == termination_targe
+function check_status(
+        model;
+        termination_target = JuMP.MOI.LOCALLY_SOLVED,
+        primal_target = JuMP.MOI.FEASIBLE_POINT)
+    @test JuMP.termination_status(model) == termination_target
     @test JuMP.primal_status(model) == primal_target
 end
 
-function check_objective(model, val)
-    @test isapprox(JuMP.objective_value(model), val, atol=OPT_TOL)
+function check_objective(model, val; tol = 1e-7)
+    @test isapprox(JuMP.objective_value(model), val, atol = tol)
 end
 
-function check_solution(vars, vals)
+function check_solution(vars, vals; tol = 1e-7)
     @assert length(vars) == length(vals)
     for (var, val) in zip(vars, vals)
-        @test isapprox(JuMP.value(var), val, atol=SOL_TOL)
+        @test isapprox(JuMP.value(var), val, atol = tol)
     end
 end
 
-function check_dual(cons, vals)
+function check_dual(cons, vals; tol = 1e-7)
     @assert length(cons) == length(vals)
     for (con, val) in zip(cons, vals)
-        @test isapprox(JuMP.dual(con), val, atol=DUAL_TOL)
+        @test isapprox(JuMP.dual(con), val, atol = tol)
     end
 end
 
@@ -38,12 +37,14 @@ end
     # Test only nlp_001_010.
     test_directory("nlp", optimizer; include = ["001_010"])
 """
-function test_directory(directory, optimizer; exclude=String[], include=String[])
+function test_directory(
+        directory, optimizer; exclude=String[], include=String[],
+        objective_tol = 1e-7, primal_tol = 1e-7, dual_tol = 1e-7)
     @testset "$(directory)" begin
         @testset "$(model_name)" for model_name in list_of_models(directory, exclude, include)
             function_name = string(replace(directory, "-" => "_"), "_", model_name)
             model_function = getfield(MINLPTests, Symbol(function_name))
-            model_function(optimizer)
+            model_function(optimizer, objective_tol, primal_tol, dual_tol)
         end
     end
 end
@@ -63,15 +64,18 @@ function list_of_models(directory, exclude::Vector{String}, include::Vector{Stri
     end
 end
 
-function test_nlp(optimizer)
+function test_nlp(optimizer; objective_tol = 1e-7, primal_tol = 1e-7, dual_tol = 1e-7)
     test_directory("nlp", optimizer; exclude = [
         "005_011",  # "Unrecognized function "\" used in nonlinear expression."
         "008_011",  # MethodError: no method matching getdual.
-    ])
+    ], objective_tol = objective_tol, primal_tol = primal_tol, dual_tol = dual_tol
+    )
 end
 
-function test_nlp_cvx(optimizer)
-    test_directory("nlp-cvx", optimizer)
+function test_nlp_cvx(optimizer; objective_tol = 1e-7, primal_tol = 1e-7, dual_tol = 1e-7)
+    test_directory("nlp-cvx", optimizer;
+        objective_tol = objective_tol, primal_tol = primal_tol, dual_tol = dual_tol
+    )
 end
 
 
@@ -101,8 +105,27 @@ function convert_file(file_name)
     end
 end
 
+function add_options(file_name)
+    file = split(String(read(file_name)), "\n")
+    open(file_name, "w") do io
+        # Add the options to the first line
+        write(io, replace(file[1], ")" => ", objective_tol, primal_tol, dual_tol)"), "\n")
+        for line in file[2:end]
+            if occursin("check_objective", line)
+                line = replace(line, r"\)\r?$" => ", tol = objective_tol)")
+            elseif occursin("check_solution", line)
+                line = replace(line, r"\)\r?$" => ", tol = primal_tol)")
+            elseif occursin("check_dual", line)
+                line = replace(line, r"\)\r?$" => ", tol = dual_tol)")
+            end
+            write(io, line, "\n")
+        end
+    end
+end
+
 function convert_directory(directory)
     for file_name in filter(f -> endswith(f, ".jl"), readdir(directory))
         convert_file(joinpath(directory, file_name))
+        add_options(joinpath(directory, file_name))
     end
 end

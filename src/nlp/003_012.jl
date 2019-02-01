@@ -1,4 +1,4 @@
-function nlp_003_012(optimizer)
+function nlp_003_012(optimizer, objective_tol, primal_tol, dual_tol)
     # Test Goals:
     # - linear objective and non-linear constraints
     
@@ -14,7 +14,8 @@ function nlp_003_012(optimizer)
     optimize!(m)
     
     check_status(m)
-    check_objective(m, 3.4028339567042485)
-    check_solution([x,y], [3.4028339561149266, 2.0667085252601867])
+    check_objective(m, 3.4028339567042485, tol = objective_tol)
+    check_solution([x,y], [3.4028339561149266, 2.0667085252601867], tol = primal_tol)
     
 end
+

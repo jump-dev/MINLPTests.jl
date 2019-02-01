@@ -1,4 +1,4 @@
-function nlp_001_010(optimizer)
+function nlp_001_010(optimizer, objective_tol, primal_tol, dual_tol)
     # Test Goals:
     # - mix of variable start values
     # - non-linear objective without constraints
@@ -16,7 +16,8 @@ function nlp_001_010(optimizer)
     optimize!(m)
     
     check_status(m)
-    check_objective(m, -1.3678794486503105)
-    check_solution([x,y,z], [-1, pi, 1])
+    check_objective(m, -1.3678794486503105, tol = objective_tol)
+    check_solution([x,y,z], [-1, pi, 1], tol = primal_tol)
     
 end
+

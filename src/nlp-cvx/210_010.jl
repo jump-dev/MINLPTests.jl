@@ -1,4 +1,4 @@
-function nlp_cvx_210_010(optimizer)
+function nlp_cvx_210_010(optimizer, objective_tol, primal_tol, dual_tol)
     # Test Goals:
     # - convex objective
     # - convex quadratic constraint
@@ -19,7 +19,8 @@ function nlp_cvx_210_010(optimizer)
     optimize!(m)
     
     check_status(m)
-    check_objective(m, 0.0)
-    check_solution([x,y,z], [1/2, 1/2, 1/2])
+    check_objective(m, 0.0, tol = objective_tol)
+    check_solution([x,y,z], [1/2, 1/2, 1/2], tol = primal_tol)
     
 end
+

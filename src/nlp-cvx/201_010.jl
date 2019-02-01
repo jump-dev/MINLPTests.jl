@@ -1,4 +1,4 @@
-function nlp_cvx_201_010(optimizer)
+function nlp_cvx_201_010(optimizer, objective_tol, primal_tol, dual_tol)
     # Test Goals:
     # - linear objective
     # - single convex quadratic constraint
@@ -18,7 +18,8 @@ function nlp_cvx_201_010(optimizer)
     optimize!(m)
     
     check_status(m)
-    check_objective(m, -3/sqrt(3))
-    check_solution([x,y,z], [1/sqrt(3), 1/sqrt(3), 1/sqrt(3)])
+    check_objective(m, -3/sqrt(3), tol = objective_tol)
+    check_solution([x,y,z], [1/sqrt(3), 1/sqrt(3), 1/sqrt(3)], tol = primal_tol)
     
 end
+

@@ -1,4 +1,4 @@
-function nlp_cvx_104_010(optimizer)
+function nlp_cvx_104_010(optimizer, objective_tol, primal_tol, dual_tol)
     # Test Goals:
     # - redundant nonlinear constraint (feasible set is inside the circle constraint)
     # Variants
@@ -17,7 +17,8 @@ function nlp_cvx_104_010(optimizer)
     optimize!(m)
     
     check_status(m)
-    check_objective(m, -1/sqrt(2))
-    check_solution([x,y], [1/sqrt(2), 1/2])
+    check_objective(m, -1/sqrt(2), tol = objective_tol)
+    check_solution([x,y], [1/sqrt(2), 1/2], tol = primal_tol)
     
 end
+

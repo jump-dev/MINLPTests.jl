@@ -1,4 +1,4 @@
-function nlp_cvx_001_010(optimizer)
+function nlp_cvx_001_010(optimizer, objective_tol, primal_tol, dual_tol)
     # Test Goals:
     # - linear objective
     # - quadratic objective
@@ -22,7 +22,8 @@ function nlp_cvx_001_010(optimizer)
     optimize!(m)
     
     check_status(m)
-    check_objective(m, -2.0430107680954848)
-    check_solution([x,y], [-2.0430107680954848, -0.4301075068564087])
+    check_objective(m, -2.0430107680954848, tol = objective_tol)
+    check_solution([x,y], [-2.0430107680954848, -0.4301075068564087], tol = primal_tol)
     
 end
+

@@ -1,4 +1,4 @@
-function nlp_007_010(optimizer)
+function nlp_007_010(optimizer, objective_tol, primal_tol, dual_tol)
     # Test Goals:
     # - infeasible model
     
@@ -15,3 +15,4 @@ function nlp_007_010(optimizer)
     check_status(m, termination_targe=JuMP.MOI.LOCALLY_INFEASIBLE, primal_target=JuMP.MOI.INFEASIBLE_POINT)
     
 end
+

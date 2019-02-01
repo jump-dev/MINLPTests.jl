@@ -1,4 +1,4 @@
-function nlp_cvx_205_010(optimizer)
+function nlp_cvx_205_010(optimizer, objective_tol, primal_tol, dual_tol)
     # Test Goals:
     # - linear objective
     # - intersection convex quadratic constraints
@@ -20,7 +20,8 @@ function nlp_cvx_205_010(optimizer)
     optimize!(m)
     
     check_status(m)
-    check_objective(m, 1.7912878443121907)
-    check_solution([x,y,z], [0.0, 1.7912878443121907, 1.7912878443121907])
+    check_objective(m, 1.7912878443121907, tol = objective_tol)
+    check_solution([x,y,z], [0.0, 1.7912878443121907, 1.7912878443121907], tol = primal_tol)
     
 end
+

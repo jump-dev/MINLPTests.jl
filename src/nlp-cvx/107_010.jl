@@ -1,4 +1,4 @@
-function nlp_cvx_107_010(optimizer)
+function nlp_cvx_107_010(optimizer, objective_tol, primal_tol, dual_tol)
     # Test Goals:
     # - convex objective
     # - single simple constraint
@@ -18,7 +18,8 @@ function nlp_cvx_107_010(optimizer)
     optimize!(m)
     
     check_status(m)
-    check_objective(m, 0)
-    check_solution([x,y], [1/2, 1/2])
+    check_objective(m, 0, tol = objective_tol)
+    check_solution([x,y], [1/2, 1/2], tol = primal_tol)
     
 end
+

@@ -1,4 +1,4 @@
-function nlp_cvx_501_011(optimizer)
+function nlp_cvx_501_011(optimizer, objective_tol, primal_tol, dual_tol)
     function nd_shpere(n=2)
         m = Model(optimizer)
     
@@ -12,8 +12,8 @@ function nlp_cvx_501_011(optimizer)
         #println(getobjectivevalue(m))
     
         check_status(m)
-        check_objective(m, -n/sqrt(n))
-        check_solution(vars, [1/sqrt(n) for i in vars])
+        check_objective(m, -n/sqrt(n), tol = objective_tol)
+        check_solution(vars, [1/sqrt(n) for i in vars], tol = primal_tol)
     end
     
     for n in 1:20
@@ -21,3 +21,4 @@ function nlp_cvx_501_011(optimizer)
     end
     
 end
+

@@ -1,4 +1,4 @@
-function nlp_cvx_501_010(optimizer)
+function nlp_cvx_501_010(optimizer, objective_tol, primal_tol, dual_tol)
     # Test Goals:
     # - n dimentional nlp
     # Variants
@@ -18,8 +18,8 @@ function nlp_cvx_501_010(optimizer)
         #println(getobjectivevalue(m))
     
         check_status(m)
-        check_objective(m, -n/sqrt(n))
-        check_solution(vars, [1/sqrt(n) for i in vars])
+        check_objective(m, -n/sqrt(n), tol = objective_tol)
+        check_solution(vars, [1/sqrt(n) for i in vars], tol = primal_tol)
     end
     
     for n in 1:20
@@ -27,3 +27,4 @@ function nlp_cvx_501_010(optimizer)
     end
     
 end
+

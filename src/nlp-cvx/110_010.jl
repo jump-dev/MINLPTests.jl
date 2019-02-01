@@ -1,4 +1,4 @@
-function nlp_cvx_110_010(optimizer)
+function nlp_cvx_110_010(optimizer, objective_tol, primal_tol, dual_tol)
     # Test Goals:
     # - convex e objective
     # - binding nonlinear constraint
@@ -18,7 +18,8 @@ function nlp_cvx_110_010(optimizer)
     optimize!(m)
     
     check_status(m)
-    check_objective(m, exp(-1))
-    check_solution([x,y], [-1.0, 0.0])
+    check_objective(m, exp(-1), tol = objective_tol)
+    check_solution([x,y], [-1.0, 0.0], tol = primal_tol)
     
 end
+

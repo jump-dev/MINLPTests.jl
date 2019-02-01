@@ -1,4 +1,4 @@
-function nlp_005_011(optimizer)
+function nlp_005_011(optimizer, objective_tol, primal_tol, dual_tol)
     # Test Goals:
     # - function \
     
@@ -15,7 +15,8 @@ function nlp_005_011(optimizer)
     optimize!(m)
     
     check_status(m)
-    check_objective(m, 1.5449760741521967)
-    check_solution([x,y], [0.5848970571378771, 0.9600790170143196])
+    check_objective(m, 1.5449760741521967, tol = objective_tol)
+    check_solution([x,y], [0.5848970571378771, 0.9600790170143196], tol = primal_tol)
     
 end
+

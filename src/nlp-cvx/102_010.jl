@@ -1,4 +1,4 @@
-function nlp_cvx_102_010(optimizer)
+function nlp_cvx_102_010(optimizer, objective_tol, primal_tol, dual_tol)
     # Test Goals:
     # - linear and nonlinear constraints
     # Variants
@@ -20,7 +20,8 @@ function nlp_cvx_102_010(optimizer)
     optimize!(m)
     
     check_status(m)
-    check_objective(m, -0.974165743715913)
-    check_solution([x,y], [0.974165743715913, 0.2258342542139504])
+    check_objective(m, -0.974165743715913, tol = objective_tol)
+    check_solution([x,y], [0.974165743715913, 0.2258342542139504], tol = primal_tol)
     
 end
+

@@ -19,14 +19,19 @@ mipoly_solvers = [juniper]
 
 for solver in nlp_solvers
     @testset "$(string(typeof(solver))) NLP Tests" begin
-        MINLPTests.test_nlp(solver)
+        MINLPTests.test_nlp(solver, exclude = [
+            "005_011",  # Uses the function `\`
+            "008_011"   # Requires quadratic duals
+        ])
         MINLPTests.test_nlp_cvx(solver)
     end
 end
 
 for solver in minlp_solvers
     @testset "$(string(typeof(solver))) MINLP Tests" begin
-        MINLPTests.test_nlp_mi(solver)
+        MINLPTests.test_nlp_mi(solver, exclude = [
+            "005_011"  # Uses the function `\`
+        ])
         MINLPTests.test_nlp_mi_cvx(solver)
     end
 end

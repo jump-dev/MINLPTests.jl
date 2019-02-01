@@ -25,25 +25,25 @@ mipoly_solvers = []
         end
     end
 
-# for solver in minlp_solvers
-#     @testset "$(string(typeof(solver))) MINLP Tests" begin
-#         MINLPTests.test_nlp_mi(solver)
-#         MINLPTests.test_nlp_mi_cvx(solver)
-#     end
-# end
-#
-# for solver in poly_solvers
-#     @testset "$(string(typeof(solver))) Polynomial Tests" begin
-#         MINLPTests.test_poly(solver)
-#         MINLPTests.test_poly_cvx(solver)
-#     end
-# end
-#
-# for solver in mipoly_solvers
-#     @testset "$(string(typeof(solver))) MIPolynomial Tests" begin
-#         MINLPTests.test_poly_mi(solver)
-#         MINLPTests.test_poly_mi_cvx(solver)
-#     end
-# end
+    for solver in minlp_solvers
+        @testset "$(string(typeof(solver))) MINLP Tests" begin
+            MINLPTests.test_nlp_mi(solver)
+            MINLPTests.test_nlp_mi_cvx(solver)
+        end
+    end
+
+    for solver in poly_solvers
+        @testset "$(string(typeof(solver))) Polynomial Tests" begin
+            MINLPTests.test_poly(solver)
+            MINLPTests.test_poly_cvx(solver)
+        end
+    end
+
+    for solver in mipoly_solvers
+        @testset "$(string(typeof(solver))) MIPolynomial Tests" begin
+            MINLPTests.test_poly_mi(solver)
+            MINLPTests.test_poly_mi_cvx(solver)
+        end
+    end
 
 end

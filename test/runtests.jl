@@ -1,53 +1,35 @@
-using MINLPTests
+using MINLPTests, JuMP, Test
 
-using Test
-using JuMP
+using Ipopt, Juniper
 
-using Ipopt
-using Juniper
+const IPOPT = IpoptSolver(print_level=0)
+const JUNIPER = JuniperSolver(IpoptSolver(print_level=0), log_levels=[])
 
-ipopt = IpoptSolver(print_level=0)
-juniper = JuniperSolver(IpoptSolver(print_level=0), log_levels=[])
-
-nlp_solvers = [ipopt]
-minlp_solvers = [juniper]
-poly_solvers = [ipopt]
-mipoly_solvers = [juniper]
-
+const NLP_SOLVERS = [IPOPT]
+const MINLP_SOLVERS = [JUNIPER]
+const POLY_SOLVERS = [IPOPT]
+const MIPOLY_SOLVERS = [JUNIPER]
 
 @testset "JuMP Model Tests" begin
-
-for solver in nlp_solvers
-    @testset "$(string(typeof(solver))) NLP Tests" begin
+    @testset "$(string(typeof(solver))): nlp" for solver in NLP_SOLVERS
         MINLPTests.test_nlp(solver, exclude = [
             "005_011",  # Uses the function `\`
             "008_011"   # Requires quadratic duals
         ])
         MINLPTests.test_nlp_cvx(solver)
     end
-end
-
-for solver in minlp_solvers
-    @testset "$(string(typeof(solver))) MINLP Tests" begin
+    @testset "$(string(typeof(solver))): nlp_mi" for solver in MINLP_SOLVERS
         MINLPTests.test_nlp_mi(solver, exclude = [
             "005_011"  # Uses the function `\`
         ])
         MINLPTests.test_nlp_mi_cvx(solver)
     end
-end
-
-for solver in poly_solvers
-    @testset "$(string(typeof(solver))) Polynomial Tests" begin
+    @testset "$(string(typeof(solver))): poly" for solver in POLY_SOLVERS
         MINLPTests.test_poly(solver)
         MINLPTests.test_poly_cvx(solver)
     end
-end
-
-for solver in mipoly_solvers
-    @testset "$(string(typeof(solver))) MIPolynomial Tests" begin
+    @testset "$(string(typeof(solver))): poly_mi" for solver in MIPOLY_SOLVERS
         MINLPTests.test_poly_mi(solver)
         MINLPTests.test_poly_mi_cvx(solver)
     end
-end
-
 end

@@ -2,7 +2,7 @@ function nlp_006_010(optimizer, objective_tol, primal_tol, dual_tol)
     # Test Goals:
     # - user defined functions
     
-    m = Model(solver = optimizer)
+    m = Model(optimizer)
     
     function user_function_1d(x)
         if x >= 0
@@ -25,9 +25,9 @@ function nlp_006_010(optimizer, objective_tol, primal_tol, dual_tol)
     @NLconstraint(m, y >= user_function_1d(x))
     @NLconstraint(m, user_function_2d(x,y) <= 2)
     
-    status = solve(m)
+    optimize!(m)
     
-    check_status(status)
+    check_status(m)
     check_objective(m, 1.8813786425753092, tol = objective_tol)
     check_solution([x,y], [0.7546057578960682, 1.1267728846792409], tol = primal_tol)
     

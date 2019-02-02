@@ -6,7 +6,7 @@ function nlp_mi_003_010(optimizer, objective_tol, primal_tol, dual_tol)
     # - functions sqrt, sin
     # - integer variables
     
-    m = Model(solver = optimizer)
+    m = Model(optimizer)
     
     @variable(m, x, Int)
     @variable(m, y, Int)
@@ -15,9 +15,9 @@ function nlp_mi_003_010(optimizer, objective_tol, primal_tol, dual_tol)
     @NLconstraint(m, y >= exp(x-2) - 2)
     @NLconstraint(m, y <= sin(x)^2 + 2)
     
-    status = solve(m)
+    optimize!(m)
     
-    check_status(status)
+    check_status(m)
     check_objective(m, 1.7606816937762844, tol = objective_tol)
     check_solution([x,y], [3, 2], tol = primal_tol)
     

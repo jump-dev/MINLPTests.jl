@@ -6,7 +6,7 @@ function nlp_cvx_106_010(optimizer, objective_tol, primal_tol, dual_tol)
     #   010 - intersection point
     #   011 - intersection point
     
-    m = Model(solver = optimizer)
+    m = Model(optimizer)
     
     @variable(m, -3 <= x <= 3)
     @variable(m, -1 <= y <= 1)
@@ -15,9 +15,9 @@ function nlp_cvx_106_010(optimizer, objective_tol, primal_tol, dual_tol)
     @NLconstraint(m, sin(-x-1.0) + x/2 + 0.5 <= y)
     @NLconstraint(m, cos(x-0.5)+ x/4 - 0.5 >= y)
     
-    status = solve(m)
+    optimize!(m)
     
-    check_status(status)
+    check_status(m)
     check_objective(m, -1.8572155128552428, tol = objective_tol)
     check_solution([x,y], [1.369771397576555, 0.4874441152786876], tol = primal_tol)
     

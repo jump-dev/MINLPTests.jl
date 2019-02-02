@@ -8,7 +8,7 @@ function nlp_cvx_102_010(optimizer, objective_tol, primal_tol, dual_tol)
     #   013 - one binding constraint (quadratic objective)
     #   014 - no binding constraints (quadratic objective)
     
-    m = Model(solver = optimizer)
+    m = Model(optimizer)
     
     @variable(m, x)
     @variable(m, y)
@@ -17,9 +17,9 @@ function nlp_cvx_102_010(optimizer, objective_tol, primal_tol, dual_tol)
     @NLconstraint(m, x^2 + y^2 <= 1.0)
     @constraint(m, x + y >= 1.2)
     
-    status = solve(m)
+    optimize!(m)
     
-    check_status(status)
+    check_status(m)
     check_objective(m, -0.974165743715913, tol = objective_tol)
     check_solution([x,y], [0.974165743715913, 0.2258342542139504], tol = primal_tol)
     

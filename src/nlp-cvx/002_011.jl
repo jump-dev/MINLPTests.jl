@@ -1,5 +1,5 @@
 function nlp_cvx_002_011(optimizer, objective_tol, primal_tol, dual_tol)
-    m = Model(solver = optimizer)
+    m = Model(optimizer)
     
     @variable(m, x)
     @variable(m, y)
@@ -12,9 +12,9 @@ function nlp_cvx_002_011(optimizer, objective_tol, primal_tol, dual_tol)
     @constraint(m, 9*x+1*y >= 20)
     @constraint(m, 3*x+7*y >= 17)
     
-    status = solve(m)
+    optimize!(m)
     
-    check_status(status)
+    check_status(m)
     check_objective(m, 0, tol = objective_tol)
     check_solution([x,y], [3, 2], tol = primal_tol)
     

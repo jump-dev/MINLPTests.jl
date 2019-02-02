@@ -6,25 +6,28 @@ using JuMP, Test
 ### Helper functions for the tests.
 ###
 
-function check_status(status; target = :Optimal)
-    @test status == target
+function check_status(model;
+                      termination_target = JuMP.MOI.LOCALLY_SOLVED,
+                      primal_target = JuMP.MOI.FEASIBLE_POINT)
+    @test JuMP.termination_status(model) == termination_target
+    @test JuMP.primal_status(model) == primal_target
 end
 
 function check_objective(model, val; tol = 1e-7)
-    @test isapprox(getobjectivevalue(model), val, atol = tol)
+    @test isapprox(JuMP.objective_value(model), val, atol = tol)
 end
 
 function check_solution(vars, vals; tol = 1e-7)
     @assert length(vars) == length(vals)
     for (var, val) in zip(vars, vals)
-        @test isapprox(getvalue(var), val, atol = tol)
+        @test isapprox(JuMP.value(var), val, atol = tol)
     end
 end
 
 function check_dual(cons, vals; tol = 1e-7)
     @assert length(cons) == length(vals)
     for (con, val) in zip(cons, vals)
-        @test isapprox(getdual(con), val, atol = tol)
+        @test isapprox(JuMP.dual(con), val, atol = tol)
     end
 end
 

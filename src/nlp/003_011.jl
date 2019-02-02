@@ -3,7 +3,7 @@ function nlp_003_011(optimizer, objective_tol, primal_tol, dual_tol)
     # - non-linear objective and non-linear constraints
     # - NLobjective with offset
     
-    m = Model(solver = optimizer)
+    m = Model(optimizer)
     
     @variable(m, x)
     @variable(m, y)
@@ -12,9 +12,9 @@ function nlp_003_011(optimizer, objective_tol, primal_tol, dual_tol)
     @NLconstraint(m, y >= exp(x-2) - 2)
     @NLconstraint(m, y <= sin(x)^2 + 2)
     
-    status = solve(m)
+    optimize!(m)
     
-    check_status(status)
+    check_status(m)
     check_objective(m, 5.013178596805878, tol = objective_tol)
     check_solution([x,y], [3.4028339561149266, 2.0667085252601867], tol = primal_tol)
     

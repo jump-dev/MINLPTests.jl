@@ -1,5 +1,5 @@
 function nlp_cvx_202_014(optimizer, objective_tol, primal_tol, dual_tol)
-    m = Model(solver = optimizer)
+    m = Model(optimizer)
     
     @variable(m, x)
     @variable(m, y)
@@ -9,9 +9,9 @@ function nlp_cvx_202_014(optimizer, objective_tol, primal_tol, dual_tol)
     @NLconstraint(m, x^2 + y^2 <= z)
     @NLconstraint(m, x^2 + y^2 <= -z+1)
     
-    status = solve(m)
+    optimize!(m)
     
-    check_status(status)
+    check_status(m)
     check_objective(m, -1, tol = objective_tol)
     check_solution([x,y,z], [-1/2, -1/2, 1/2], tol = primal_tol)
     

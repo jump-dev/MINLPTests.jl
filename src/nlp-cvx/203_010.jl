@@ -6,7 +6,7 @@ function nlp_cvx_203_010(optimizer, objective_tol, primal_tol, dual_tol)
     # Variants
     #   010 - intersection set
     
-    m = Model(solver = optimizer)
+    m = Model(optimizer)
     
     @variable(m, x, start=0.1)
     @variable(m, y, start=0.1)
@@ -16,9 +16,9 @@ function nlp_cvx_203_010(optimizer, objective_tol, primal_tol, dual_tol)
     @NLconstraint(m, sqrt(x^2 + y^2) <= z-0.25)
     @NLconstraint(m, x^2 + y^2 <= -z+1)
     
-    status = solve(m)
+    optimize!(m)
     
-    check_status(status)
+    check_status(m)
     check_objective(m, -1/sqrt(2), tol = objective_tol)
     check_solution([x,y,z], [-sqrt(1/8), -sqrt(1/8), 3/4], tol = primal_tol)
     

@@ -1,4 +1,6 @@
-function nlp_mi_003_016(optimizer, objective_tol, primal_tol, dual_tol)
+function nlp_mi_003_016(optimizer, objective_tol, primal_tol, dual_tol;
+        termination_target = JuMP.MOI.LOCALLY_SOLVED, 
+        primal_target = JuMP.MOI.FEASIBLE_POINT)
     # Test Goals:
     # - objective with offset
     
@@ -13,7 +15,7 @@ function nlp_mi_003_016(optimizer, objective_tol, primal_tol, dual_tol)
     
     optimize!(m)
     
-    check_status(m)
+    check_status(m, termination_target, primal_target)
     check_objective(m, 6.141592682680717, tol = objective_tol)
     check_solution([x,y], [3, 2], tol = primal_tol)
     

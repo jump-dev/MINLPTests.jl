@@ -6,9 +6,7 @@ using JuMP, Test
 ### Helper functions for the tests.
 ###
 
-function check_status(model;
-                      termination_target = JuMP.MOI.LOCALLY_SOLVED,
-                      primal_target = JuMP.MOI.FEASIBLE_POINT)
+function check_status(model, termination_target, primal_target)
     @test JuMP.termination_status(model) == termination_target
     @test JuMP.primal_status(model) == primal_target
 end

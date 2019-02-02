@@ -1,4 +1,6 @@
-function nlp_mi_001_010(optimizer, objective_tol, primal_tol, dual_tol)
+function nlp_mi_001_010(optimizer, objective_tol, primal_tol, dual_tol;
+        termination_target = JuMP.MOI.LOCALLY_SOLVED, 
+        primal_target = JuMP.MOI.FEASIBLE_POINT)
     # Test Goals:
     # - mix of variable start values
     # - non-linear objective without constraints
@@ -17,7 +19,7 @@ function nlp_mi_001_010(optimizer, objective_tol, primal_tol, dual_tol)
     
     optimize!(m)
     
-    check_status(m)
+    check_status(m, termination_target, primal_target)
     check_objective(m, -1.35787195018718, tol = objective_tol)
     check_solution([x,y,z], [-1, 3, 1], tol = primal_tol)
     

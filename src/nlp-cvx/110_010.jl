@@ -1,4 +1,6 @@
-function nlp_cvx_110_010(optimizer, objective_tol, primal_tol, dual_tol)
+function nlp_cvx_110_010(optimizer, objective_tol, primal_tol, dual_tol;
+        termination_target = JuMP.MOI.LOCALLY_SOLVED, 
+        primal_target = JuMP.MOI.FEASIBLE_POINT)
     # Test Goals:
     # - convex e objective
     # - binding nonlinear constraint
@@ -17,7 +19,7 @@ function nlp_cvx_110_010(optimizer, objective_tol, primal_tol, dual_tol)
     
     optimize!(m)
     
-    check_status(m)
+    check_status(m, termination_target, primal_target)
     check_objective(m, exp(-1), tol = objective_tol)
     check_solution([x,y], [-1.0, 0.0], tol = primal_tol)
     

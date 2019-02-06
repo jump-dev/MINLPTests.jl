@@ -1,8 +1,9 @@
 using MINLPTests, JuMP, Test
 
-using Ipopt
+using Ipopt #, KNITRO
 
 const IPOPT = JuMP.with_optimizer(Ipopt.Optimizer, print_level = 0)
+#= const KNITRO = JuMP.with_optimizer(KNITRO.Optimizer, outlev=0) =#
 
 const NLP_SOLVERS = [IPOPT]
 const MINLP_SOLVERS = []
@@ -12,9 +13,13 @@ const MIPOLY_SOLVERS = []
 @testset "JuMP Model Tests" begin
     @testset "$(solver.constructor): nlp" for solver in NLP_SOLVERS
         MINLPTests.test_nlp(solver, exclude = [
+            "005_010",
             "005_011",  # Uses the function `\`
             "008_011"   # Requires quadratic duals
         ])
+        @testset "nlp_cvx_005_010" begin
+            MINLPTests.nlp_005_010(solver, 1e-5, 1e-5, 1e-5)
+        end
         MINLPTests.test_nlp_cvx(solver, exclude = ["109_011"])
         # Ipopt can only solve nlp_cvx_109_011 to relaxed tolerances.
         @testset "nlp_cvx_109_011" begin

@@ -5,24 +5,27 @@ using JuMP, Test
 ###
 ### Helper functions for the tests.
 ###
+const OPTTOL    = 1e-6
+const PRIMALTOL = 1e-6
+const DUALTOL   = 1e-6
 
 function check_status(model, termination_target, primal_target)
     @test JuMP.termination_status(model) == termination_target
     @test JuMP.primal_status(model) == primal_target
 end
 
-function check_objective(model, val; tol = 1e-7)
+function check_objective(model, val; tol = OPTTOL)
     @test isapprox(JuMP.objective_value(model), val, atol = tol)
 end
 
-function check_solution(vars, vals; tol = 1e-7)
+function check_solution(vars, vals; tol = PRIMALTOL)
     @assert length(vars) == length(vals)
     for (var, val) in zip(vars, vals)
         @test isapprox(JuMP.value(var), val, atol = tol)
     end
 end
 
-function check_dual(cons, vals; tol = 1e-7)
+function check_dual(cons, vals; tol = DUALTOL)
     @assert length(cons) == length(vals)
     for (con, val) in zip(cons, vals)
         @test isapprox(JuMP.dual(con), val, atol = tol)
@@ -50,7 +53,7 @@ end
 """
 function test_directory(
         directory, optimizer; exclude=String[], include=String[],
-        objective_tol = 1e-7, primal_tol = 1e-7, dual_tol = 1e-7)
+        objective_tol = OPTTOL, primal_tol = PRIMALTOL, dual_tol = DUALTOL)
     @testset "$(directory)" begin
         @testset "$(model_name)" for model_name in list_of_models(directory, exclude, include)
             function_name = string(replace(directory, "-" => "_"), "_", model_name)
@@ -80,24 +83,24 @@ end
 ###
 
 function test_nlp(
-        optimizer; exclude = String[], objective_tol = 1e-7,
-        primal_tol = 1e-7, dual_tol = 1e-7)
+        optimizer; exclude = String[], objective_tol = OPTTOL,
+        primal_tol = PRIMALTOL, dual_tol = DUALTOL)
     test_directory("nlp", optimizer;
         exclude = exclude, objective_tol = objective_tol,
         primal_tol = primal_tol, dual_tol = dual_tol)
 end
 
 function test_nlp_cvx(
-        optimizer; exclude = String[], objective_tol = 1e-7,
-        primal_tol = 1e-7, dual_tol = 1e-7)
+        optimizer; exclude = String[], objective_tol = OPTTOL,
+        primal_tol = PRIMALTOL, dual_tol = DUALTOL)
     test_directory("nlp-cvx", optimizer;
         exclude = exclude, objective_tol = objective_tol,
         primal_tol = primal_tol, dual_tol = dual_tol)
 end
 
 function test_nlp_mi(
-        optimizer; exclude = String[], objective_tol = 1e-7,
-        primal_tol = 1e-7, dual_tol = 1e-7)
+        optimizer; exclude = String[], objective_tol = OPTTOL,
+        primal_tol = PRIMALTOL, dual_tol = DUALTOL)
     test_directory("nlp-mi", optimizer;
         exclude = exclude, objective_tol = objective_tol,
         primal_tol = primal_tol, dual_tol = dual_tol)

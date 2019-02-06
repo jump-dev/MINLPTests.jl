@@ -3,29 +3,39 @@ module MINLPTests
 using JuMP, Test
 
 ###
+### Default tolerances that are used in the tests.
+###
+
+# Absolute tolerance when checking the objective value.
+const OPT_TOL    = 1e-6
+
+# Absolute tolerance when checking the primal solution value.
+const PRIMAL_TOL = 1e-6
+
+# Absolue tolerance when checking the dual solution value.
+const DUAL_TOL   = 1e-6
+
+###
 ### Helper functions for the tests.
 ###
-const OPTTOL    = 1e-6
-const PRIMALTOL = 1e-6
-const DUALTOL   = 1e-6
 
 function check_status(model, termination_target, primal_target)
     @test JuMP.termination_status(model) == termination_target
     @test JuMP.primal_status(model) == primal_target
 end
 
-function check_objective(model, val; tol = OPTTOL)
+function check_objective(model, val; tol = OPT_TOL)
     @test isapprox(JuMP.objective_value(model), val, atol = tol)
 end
 
-function check_solution(vars, vals; tol = PRIMALTOL)
+function check_solution(vars, vals; tol = PRIMAL_TOL)
     @assert length(vars) == length(vals)
     for (var, val) in zip(vars, vals)
         @test isapprox(JuMP.value(var), val, atol = tol)
     end
 end
 
-function check_dual(cons, vals; tol = DUALTOL)
+function check_dual(cons, vals; tol = DUAL_TOL)
     @assert length(cons) == length(vals)
     for (con, val) in zip(cons, vals)
         @test isapprox(JuMP.dual(con), val, atol = tol)
@@ -44,7 +54,9 @@ end
 
 """
     test_directory(directory, optimizer; exclude=String[], include=String[])
+
 ### Example
+
     optimizer = JuMP.with_optimizer(Ipopt.Optimizer)
     # Test all but nlp_001_010.
     test_directory("nlp", optimizer; exclude = ["001_010"])
@@ -53,7 +65,7 @@ end
 """
 function test_directory(
         directory, optimizer; exclude=String[], include=String[],
-        objective_tol = OPTTOL, primal_tol = PRIMALTOL, dual_tol = DUALTOL)
+        objective_tol = OPT_TOL, primal_tol = PRIMAL_TOL, dual_tol = DUAL_TOL)
     @testset "$(directory)" begin
         @testset "$(model_name)" for model_name in list_of_models(directory, exclude, include)
             function_name = string(replace(directory, "-" => "_"), "_", model_name)
@@ -83,24 +95,24 @@ end
 ###
 
 function test_nlp(
-        optimizer; exclude = String[], objective_tol = OPTTOL,
-        primal_tol = PRIMALTOL, dual_tol = DUALTOL)
+        optimizer; exclude = String[], objective_tol = OPT_TOL,
+        primal_tol = PRIMAL_TOL, dual_tol = DUAL_TOL)
     test_directory("nlp", optimizer;
         exclude = exclude, objective_tol = objective_tol,
         primal_tol = primal_tol, dual_tol = dual_tol)
 end
 
 function test_nlp_cvx(
-        optimizer; exclude = String[], objective_tol = OPTTOL,
-        primal_tol = PRIMALTOL, dual_tol = DUALTOL)
+        optimizer; exclude = String[], objective_tol = OPT_TOL,
+        primal_tol = PRIMAL_TOL, dual_tol = DUAL_TOL)
     test_directory("nlp-cvx", optimizer;
         exclude = exclude, objective_tol = objective_tol,
         primal_tol = primal_tol, dual_tol = dual_tol)
 end
 
 function test_nlp_mi(
-        optimizer; exclude = String[], objective_tol = OPTTOL,
-        primal_tol = PRIMALTOL, dual_tol = DUALTOL)
+        optimizer; exclude = String[], objective_tol = OPT_TOL,
+        primal_tol = PRIMAL_TOL, dual_tol = DUAL_TOL)
     test_directory("nlp-mi", optimizer;
         exclude = exclude, objective_tol = objective_tol,
         primal_tol = primal_tol, dual_tol = dual_tol)

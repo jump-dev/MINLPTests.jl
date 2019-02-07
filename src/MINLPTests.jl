@@ -11,21 +11,27 @@ function check_status(model, termination_target, primal_target)
     @test JuMP.primal_status(model) == primal_target
 end
 
-function check_objective(model, val; tol = 1e-7)
-    @test isapprox(JuMP.objective_value(model), val, atol = tol)
-end
-
-function check_solution(vars, vals; tol = 1e-7)
-    @assert length(vars) == length(vals)
-    for (var, val) in zip(vars, vals)
-        @test isapprox(JuMP.value(var), val, atol = tol)
+function check_objective(model, val; tol::Float64 = 1e-7)
+    if !isnan(tol)
+        @test isapprox(JuMP.objective_value(model), val, atol = tol)
     end
 end
 
-function check_dual(cons, vals; tol = 1e-7)
-    @assert length(cons) == length(vals)
-    for (con, val) in zip(cons, vals)
-        @test isapprox(JuMP.dual(con), val, atol = tol)
+function check_solution(vars, vals; tol::Float64 = 1e-7)
+    if !isnan(tol)
+        @assert length(vars) == length(vals)
+        for (var, val) in zip(vars, vals)
+            @test isapprox(JuMP.value(var), val, atol = tol)
+        end
+    end
+end
+
+function check_dual(cons, vals; tol::Float64 = 1e-7)
+    if !isnan(tol)
+        @assert length(cons) == length(vals)
+        for (con, val) in zip(cons, vals)
+            @test isapprox(JuMP.dual(con), val, atol = tol)
+        end
     end
 end
 

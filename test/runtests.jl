@@ -1,7 +1,6 @@
 using MINLPTests, JuMP, Test
 
-using Ipopt
-
+using Ipopt 
 const IPOPT = JuMP.with_optimizer(Ipopt.Optimizer, print_level = 0)
 
 const NLP_SOLVERS = [IPOPT]
@@ -12,11 +11,16 @@ const MIPOLY_SOLVERS = []
 @testset "JuMP Model Tests" begin
     @testset "$(solver.constructor): nlp" for solver in NLP_SOLVERS
         MINLPTests.test_nlp(solver, exclude = [
+            "005_010",  # Ipopt needs relaxed tolerances.
             "005_011",  # Uses the function `\`
             "008_011"   # Requires quadratic duals
         ])
-        MINLPTests.test_nlp_cvx(solver, exclude = ["109_011"])
-        # Ipopt can only solve nlp_cvx_109_011 to relaxed tolerances.
+        @testset "nlp_cvx_005_010" begin
+            MINLPTests.nlp_005_010(solver, 1e-5, 1e-5, 1e-5)
+        end
+        MINLPTests.test_nlp_cvx(solver, exclude = [
+            "109_011"  # Ipopt needs relaxed tolerances.
+        ])
         @testset "nlp_cvx_109_011" begin
             MINLPTests.nlp_cvx_109_011(solver, 1e-7, 1e-6, 1e-7,
                 termination_target = JuMP.MOI.ALMOST_LOCALLY_SOLVED,

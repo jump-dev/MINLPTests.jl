@@ -3,6 +3,19 @@ module MINLPTests
 using JuMP, Test
 
 ###
+### Default tolerances that are used in the tests.
+###
+
+# Absolute tolerance when checking the objective value.
+const OPT_TOL    = 1e-6
+
+# Absolute tolerance when checking the primal solution value.
+const PRIMAL_TOL = 1e-6
+
+# Absolue tolerance when checking the dual solution value.
+const DUAL_TOL   = 1e-6
+
+###
 ### Helper functions for the tests.
 ###
 
@@ -11,26 +24,26 @@ function check_status(model, termination_target, primal_target)
     @test JuMP.primal_status(model) == primal_target
 end
 
-function check_objective(model, val; tol::Float64 = 1e-7)
+function check_objective(model, solution; tol = OPT_TOL)
     if !isnan(tol)
-        @test isapprox(JuMP.objective_value(model), val, atol = tol)
+        @test isapprox(JuMP.objective_value(model), solution, atol = tol)
     end
 end
 
-function check_solution(vars, vals; tol::Float64 = 1e-7)
+function check_solution(variables, solutions; tol = PRIMAL_TOL)
     if !isnan(tol)
-        @assert length(vars) == length(vals)
-        for (var, val) in zip(vars, vals)
-            @test isapprox(JuMP.value(var), val, atol = tol)
+        @assert length(variables) == length(solutions)
+        for (variable, solution) in zip(variables, solutions)
+            @test isapprox(JuMP.value(variable), solution, atol = tol)
         end
     end
 end
 
-function check_dual(cons, vals; tol::Float64 = 1e-7)
+function check_dual(constraints, solutions; tol = DUAL_TOL)
     if !isnan(tol)
-        @assert length(cons) == length(vals)
-        for (con, val) in zip(cons, vals)
-            @test isapprox(JuMP.dual(con), val, atol = tol)
+        @assert length(constraints) == length(solutions)
+        for (constraint, solution) in zip(constraints, solutions)
+            @test isapprox(JuMP.dual(constraint), solution, atol = tol)
         end
     end
 end
@@ -47,7 +60,9 @@ end
 
 """
     test_directory(directory, optimizer; exclude=String[], include=String[])
+
 ### Example
+
     optimizer = JuMP.with_optimizer(Ipopt.Optimizer)
     # Test all but nlp_001_010.
     test_directory("nlp", optimizer; exclude = ["001_010"])
@@ -56,7 +71,7 @@ end
 """
 function test_directory(
         directory, optimizer; exclude=String[], include=String[],
-        objective_tol = 1e-7, primal_tol = 1e-7, dual_tol = 1e-7)
+        objective_tol = OPT_TOL, primal_tol = PRIMAL_TOL, dual_tol = DUAL_TOL)
     @testset "$(directory)" begin
         @testset "$(model_name)" for model_name in list_of_models(directory, exclude, include)
             function_name = string(replace(directory, "-" => "_"), "_", model_name)
@@ -86,24 +101,24 @@ end
 ###
 
 function test_nlp(
-        optimizer; exclude = String[], objective_tol = 1e-7,
-        primal_tol = 1e-7, dual_tol = 1e-7)
+        optimizer; exclude = String[], objective_tol = OPT_TOL,
+        primal_tol = PRIMAL_TOL, dual_tol = DUAL_TOL)
     test_directory("nlp", optimizer;
         exclude = exclude, objective_tol = objective_tol,
         primal_tol = primal_tol, dual_tol = dual_tol)
 end
 
 function test_nlp_cvx(
-        optimizer; exclude = String[], objective_tol = 1e-7,
-        primal_tol = 1e-7, dual_tol = 1e-7)
+        optimizer; exclude = String[], objective_tol = OPT_TOL,
+        primal_tol = PRIMAL_TOL, dual_tol = DUAL_TOL)
     test_directory("nlp-cvx", optimizer;
         exclude = exclude, objective_tol = objective_tol,
         primal_tol = primal_tol, dual_tol = dual_tol)
 end
 
 function test_nlp_mi(
-        optimizer; exclude = String[], objective_tol = 1e-7,
-        primal_tol = 1e-7, dual_tol = 1e-7)
+        optimizer; exclude = String[], objective_tol = OPT_TOL,
+        primal_tol = PRIMAL_TOL, dual_tol = DUAL_TOL)
     test_directory("nlp-mi", optimizer;
         exclude = exclude, objective_tol = objective_tol,
         primal_tol = primal_tol, dual_tol = dual_tol)

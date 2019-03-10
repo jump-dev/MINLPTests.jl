@@ -2,7 +2,7 @@
 
 **master:** [![Build Status](https://travis-ci.org/JuliaOpt/MINLPTests.jl.svg?branch=master)](https://travis-ci.org/JuliaOpt/MINLPTests.jl)
 
-**moi:** [![Build Status](https://travis-ci.org/JuliaOpt/MINLPTests.jl.svg?branch=moi)](https://travis-ci.org/JuliaOpt/MINLPTests.jl)
+**moi:** [![Build Status](https://travis-ci.org/JuliaOpt/MINLPTests.jl.svg?branch=od%2Fmoi)](https://travis-ci.org/JuliaOpt/MINLPTests.jl)
 
 This is a collection of JuMP models for testing nonlinear/polynomial solvers with and without discrete variables in JuMP.
 

@@ -1,12 +1,14 @@
 using MINLPTests, JuMP, Test
 
-using Ipopt 
+using Ipopt, Juniper
 const IPOPT = JuMP.with_optimizer(Ipopt.Optimizer, print_level = 0)
+const JUNIPER = JuMP.with_optimizer(Juniper.Optimizer, nl_solver=JuMP.with_optimizer(Ipopt.Optimizer, print_level=0), log_levels=[])
+
 
 const NLP_SOLVERS = [IPOPT]
-const MINLP_SOLVERS = []
+const MINLP_SOLVERS = [JUNIPER]
 const POLY_SOLVERS = [IPOPT]
-const MIPOLY_SOLVERS = []
+const MIPOLY_SOLVERS = [JUNIPER]
 
 @testset "JuMP Model Tests" begin
     @testset "$(solver.constructor): nlp" for solver in NLP_SOLVERS

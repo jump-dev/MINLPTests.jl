@@ -4,8 +4,8 @@ function nlp_003_014(optimizer, objective_tol, primal_tol, dual_tol)
     
     m = Model(solver = optimizer)
     
-    @variable(m, x)
-    @variable(m, y)
+    @variable(m, 0 <= x <= 4)
+    @variable(m, 0 <= y <= 4)
     
     @objective(m, Max, x^2 + y)
     @NLconstraint(m, y >= exp(x-2) - 1.5)

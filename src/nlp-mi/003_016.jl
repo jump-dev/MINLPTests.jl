@@ -8,7 +8,7 @@ function nlp_mi_003_016(optimizer, objective_tol, primal_tol, dual_tol)
     @variable(m, y, Int)
     
     @objective(m, Max, x + pi)
-    @NLconstraint(m, y >= exp(x-2) - 2)
+    @NLconstraint(m, y >= exp(x-2) - 1.5)
     @NLconstraint(m, y <= sin(x)^2 + 2)
     
     status = solve(m)

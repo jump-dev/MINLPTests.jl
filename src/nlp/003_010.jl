@@ -3,12 +3,13 @@ function nlp_003_010(optimizer, objective_tol, primal_tol, dual_tol)
     # - none have start values
     # - non-linear objective and non-linear constraints
     # - maximization objective
+    # - variable bounds
     # - functions sqrt, sin
     
     m = Model(solver = optimizer)
     
-    @variable(m, x)
-    @variable(m, y)
+    @variable(m, 0 <= x <= 4)
+    @variable(m, 0 <= y <= 4)
     
     @NLobjective(m, Max, sqrt(x+0.1))
     @NLconstraint(m, y >= exp(x-2) - 2)

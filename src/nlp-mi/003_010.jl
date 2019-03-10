@@ -12,7 +12,7 @@ function nlp_mi_003_010(optimizer, objective_tol, primal_tol, dual_tol)
     @variable(m, y, Int)
     
     @NLobjective(m, Max, sqrt(x+0.1))
-    @NLconstraint(m, y >= exp(x-2) - 2)
+    @NLconstraint(m, y >= exp(x-2) - 1.5)
     @NLconstraint(m, y <= sin(x)^2 + 2)
     
     status = solve(m)

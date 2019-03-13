@@ -4,18 +4,18 @@ function nlp_003_015(optimizer, objective_tol, primal_tol, dual_tol)
     
     m = Model(solver = optimizer)
     
-    @variable(m, x)
-    @variable(m, y)
+    @variable(m, 0 <= x <= 4)
+    @variable(m, 0 <= y <= 4)
     
     @NLobjective(m, Max, x^2 + y)
-    @NLconstraint(m, y >= exp(x-2) - 2)
+    @NLconstraint(m, y >= exp(x-2) - 1.5)
     @NLconstraint(m, y <= sin(x)^2 + 2)
     
     status = solve(m)
     
     check_status(status)
-    check_objective(m, 13.645987504086483, tol = objective_tol)
-    check_solution([x,y], [3.4028339561149266, 2.0667085252601867], tol = primal_tol)
+    check_objective(m, 12.618023354784961, tol = objective_tol)
+    check_solution([x,y], [3.2565126525233166, 2.013148549981813], tol = primal_tol)
     
 end
 

@@ -6,18 +6,18 @@ function nlp_003_016(optimizer, objective_tol, primal_tol, dual_tol;
     
     m = Model(optimizer)
     
-    @variable(m, x)
-    @variable(m, y)
+    @variable(m, 0 <= x <= 4)
+    @variable(m, 0 <= y <= 4)
     
     @objective(m, Max, x + pi)
-    @NLconstraint(m, y >= exp(x-2) - 2)
+    @NLconstraint(m, y >= exp(x-2) - 1.5)
     @NLconstraint(m, y <= sin(x)^2 + 2)
     
     optimize!(m)
     
     check_status(m, termination_target, primal_target)
-    check_objective(m, 6.544426610294042, tol = objective_tol)
-    check_solution([x,y], [3.4028339561149266, 2.0667085252601867], tol = primal_tol)
+    check_objective(m, 6.398105319414242, tol = objective_tol)
+    check_solution([x,y], [3.2565126525233166, 2.013148549981813], tol = primal_tol)
     
 end
 

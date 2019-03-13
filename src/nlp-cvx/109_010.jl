@@ -7,12 +7,11 @@ function nlp_cvx_109_010(optimizer, objective_tol, primal_tol, dual_tol;
     # Variants
     #   010 - binding constraint (inflection point)
     #   011 - binding constraint (non-inflection point)
-    #   012 - binding constraint (non-inflection point)
 
     m = Model(optimizer)
 
-    @variable(m, x, start=2)
-    @variable(m, y, start=2)
+    @variable(m, x >= 0.00001, start=2)
+    @variable(m, y >= 0.00001, start=2)
 
     @NLobjective(m, Max, log(x))
     @NLconstraint(m, (y-2)^2 <= -x+2)

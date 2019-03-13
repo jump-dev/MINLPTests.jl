@@ -6,11 +6,11 @@ function nlp_mi_003_012(optimizer, objective_tol, primal_tol, dual_tol;
     
     m = Model(optimizer)
     
-    @variable(m, x, Int)
-    @variable(m, y, Int)
+    @variable(m, 0 <= x <= 4, Int)
+    @variable(m, 0 <= y <= 4, Int)
     
     @objective(m, Max, x)
-    @NLconstraint(m, y >= exp(x-2) - 2)
+    @NLconstraint(m, y >= exp(x-2) - 1.5)
     @NLconstraint(m, y <= sin(x)^2 + 2)
     
     optimize!(m)

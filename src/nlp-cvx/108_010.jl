@@ -1,4 +1,6 @@
-function nlp_cvx_108_010(optimizer, objective_tol, primal_tol, dual_tol)
+function nlp_cvx_108_010(optimizer, objective_tol, primal_tol, dual_tol;
+        termination_target = JuMP.MOI.LOCALLY_SOLVED, 
+        primal_target = JuMP.MOI.FEASIBLE_POINT)
     # Test Goals:
     # - convex objective
     # - intersection of constraints
@@ -9,7 +11,7 @@ function nlp_cvx_108_010(optimizer, objective_tol, primal_tol, dual_tol)
     #   012 - intersection point
     #   013 - one binding constraint
     
-    m = Model(solver = optimizer)
+    m = Model(optimizer)
     
     @variable(m, x >= 0)
     @variable(m, y >= 0)
@@ -18,9 +20,9 @@ function nlp_cvx_108_010(optimizer, objective_tol, primal_tol, dual_tol)
     @NLconstraint(m, 2*x^2 - 4x*y - 4*x + 4 <= y)
     @NLconstraint(m, y^2 <= -x+2)
     
-    status = solve(m)
+    optimize!(m)
     
-    check_status(status)
+    check_status(m, termination_target, primal_target)
     check_objective(m, 0, tol = objective_tol)
     check_solution([x,y], [1, 0.75], tol = primal_tol)
     

@@ -1,4 +1,6 @@
-function nlp_cvx_202_010(optimizer, objective_tol, primal_tol, dual_tol)
+function nlp_cvx_202_010(optimizer, objective_tol, primal_tol, dual_tol;
+        termination_target = JuMP.MOI.LOCALLY_SOLVED, 
+        primal_target = JuMP.MOI.FEASIBLE_POINT)
     # Test Goals:
     # - linear objective
     # - intersection convex quadratic constraints
@@ -9,7 +11,7 @@ function nlp_cvx_202_010(optimizer, objective_tol, primal_tol, dual_tol)
     #   013 - one binding constraint (non-inflection point)
     #   014 - intersection set
     
-    m = Model(solver = optimizer)
+    m = Model(optimizer)
     
     @variable(m, x)
     @variable(m, y)
@@ -19,9 +21,9 @@ function nlp_cvx_202_010(optimizer, objective_tol, primal_tol, dual_tol)
     @NLconstraint(m, x^2 + y^2 <= z)
     @NLconstraint(m, x^2 + y^2 <= -z+1)
     
-    status = solve(m)
+    optimize!(m)
     
-    check_status(status)
+    check_status(m, termination_target, primal_target)
     check_objective(m, -1, tol = objective_tol)
     check_solution([x,y,z], [0, 0, 1], tol = primal_tol)
     

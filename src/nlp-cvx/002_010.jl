@@ -1,4 +1,6 @@
-function nlp_cvx_002_010(optimizer, objective_tol, primal_tol, dual_tol)
+function nlp_cvx_002_010(optimizer, objective_tol, primal_tol, dual_tol;
+        termination_target = JuMP.MOI.LOCALLY_SOLVED, 
+        primal_target = JuMP.MOI.FEASIBLE_POINT)
     # Test Goals:
     # - linear objective
     # - quadratic objective
@@ -7,7 +9,7 @@ function nlp_cvx_002_010(optimizer, objective_tol, primal_tol, dual_tol)
     #   010 - binding constraints
     #   011 - non-binding constraints 
     
-    m = Model(solver = optimizer)
+    m = Model(optimizer)
     
     @variable(m, x)
     @variable(m, y)
@@ -20,9 +22,9 @@ function nlp_cvx_002_010(optimizer, objective_tol, primal_tol, dual_tol)
     @constraint(m, 9*x+1*y >= 20)
     @constraint(m, 3*x+7*y >= 17)
     
-    status = solve(m)
+    optimize!(m)
     
-    check_status(status)
+    check_status(m, termination_target, primal_target)
     check_objective(m, 3.9655172067026196, tol = objective_tol)
     check_solution([x,y], [2.4137930845761546, 1.5517241221264648], tol = primal_tol)
     

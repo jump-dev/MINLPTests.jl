@@ -17,8 +17,8 @@ function nlp_005_010(optimizer, objective_tol, primal_tol, dual_tol;
     optimize!(m)
 
     check_status(m, termination_target, primal_target)
-    check_objective(m, 1.5449723904, tol = objective_tol)
-    check_solution([x,y], [0.5848953813, 0.9600770092], tol = primal_tol)
+    check_objective(m, 1.5449760741521967, tol = objective_tol)
+    check_solution([x,y], [0.5848970571378771, 0.9600790170143196], tol = primal_tol)
 
 end
 

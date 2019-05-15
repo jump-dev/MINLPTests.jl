@@ -3,8 +3,8 @@ function nlp_cvx_109_011(optimizer, objective_tol, primal_tol, dual_tol;
         primal_target = JuMP.MOI.FEASIBLE_POINT)
     m = Model(optimizer)
 
-    @variable(m, x >= 0.00001, start=2)
-    @variable(m, y >= 0.00001, start=2)
+    @variable(m, x >= 0.00001, start=0.1)
+    @variable(m, y >= 0.00001, start=0.1)
 
     @NLobjective(m, Max, log(x) + log(y))
     @NLconstraint(m, (y-2)^2 <= -x+2)

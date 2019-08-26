@@ -1,7 +1,7 @@
 name = "MINLPTests"
 uuid = "ee0a3090-8ee9-5cdb-b8cb-8eeba3165522"
 repo = "https://github.com/JuliaOpt/MINLPTests.jl.git"
-version = "0.3.0"
+version = "0.4.0"
 
 [deps]
 JuMP = "4076af6c-e467-56ae-b986-b466b2749572"
@@ -9,7 +9,7 @@ Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [compat]
 Ipopt = "≥ 0.5"
-JuMP = "~0.19"
+JuMP = "^0.20"
 Juniper = "≥ 0.4"
 julia = "^1"
 

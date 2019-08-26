@@ -19,9 +19,33 @@ const DUAL_TOL   = 1e-6
 ### Helper functions for the tests.
 ###
 
+# Additional termination status codes that are also accepted.
+const EXTRA_TERMINATION = Dict(
+    JuMP.MOI.ALMOST_LOCALLY_SOLVED => (
+        JuMP.MOI.LOCALLY_SOLVED,
+    ),
+)
+
+# Additional result status codes that are also accepted.
+const EXTRA_RESULT = Dict(
+    JuMP.MOI.NEARLY_FEASIBLE_POINT => (
+        JuMP.MOI.FEASIBLE_POINT,
+    ),
+)
+
+function check_status(status::JuMP.MOI.TerminationStatusCode,
+                      target::JuMP.MOI.TerminationStatusCode)
+    return status == target || status in get(EXTRA_TERMINATION, target, ())
+end
+
+function check_status(status::JuMP.MOI.ResultStatusCode,
+                      target::JuMP.MOI.ResultStatusCode)
+    return status == target || status in get(EXTRA_RESULT, target, ())
+end
+
 function check_status(model, termination_target, primal_target)
-    @test JuMP.termination_status(model) == termination_target
-    @test JuMP.primal_status(model) == primal_target
+    @test check_status(JuMP.termination_status(model), termination_target)
+    @test check_status(JuMP.primal_status(model), primal_target)
 end
 
 function check_objective(model, solution; tol = OPT_TOL)

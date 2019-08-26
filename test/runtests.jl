@@ -10,6 +10,24 @@ const MINLP_SOLVERS = [JUNIPER]
 const POLY_SOLVERS = [IPOPT]
 const MIPOLY_SOLVERS = [JUNIPER]
 
+@testset "Utilities" begin
+    @testset "check status (with upgrade)" begin
+        # always accept the exact same status
+        @test MINLPTests.check_status(
+            JuMP.MOI.LOCALLY_SOLVED, JuMP.MOI.LOCALLY_SOLVED)
+        @test MINLPTests.check_status(
+            JuMP.MOI.ALMOST_LOCALLY_SOLVED, JuMP.MOI.ALMOST_LOCALLY_SOLVED)
+
+        # also accept "better" status (exceed expectation)
+        @test MINLPTests.check_status(
+            JuMP.MOI.LOCALLY_SOLVED, JuMP.MOI.ALMOST_LOCALLY_SOLVED)
+
+        # do not accept "worse" status (fail expectation)
+        @test !MINLPTests.check_status(
+            JuMP.MOI.ALMOST_LOCALLY_SOLVED, JuMP.MOI.LOCALLY_SOLVED)
+    end
+end
+
 @testset "JuMP Model Tests" begin
     @testset "$(solver.constructor): nlp" for solver in NLP_SOLVERS
         MINLPTests.test_nlp(solver, exclude = [

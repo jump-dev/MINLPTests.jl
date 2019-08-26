@@ -19,14 +19,24 @@ const DUAL_TOL   = 1e-6
 ### Helper functions for the tests.
 ###
 
-# Additional termination status codes that are also accepted.
+# Additional termination status codes that are also accepted (incomplete).
 const EXTRA_TERMINATION = Dict(
     JuMP.MOI.ALMOST_LOCALLY_SOLVED => (
         JuMP.MOI.LOCALLY_SOLVED,
+        JuMP.MOI.OPTIMAL,
+    ),
+    JuMP.MOI.ALMOST_OPTIMAL => (
+        JuMP.MOI.OPTIMAL,
+    ),
+    JuMP.MOI.LOCALLY_SOLVED => (
+        JuMP.MOI.OPTIMAL,
+    ),
+    JuMP.MOI.LOCALLY_INFEASIBLE => (
+        JuMP.MOI.INFEASIBLE,
     ),
 )
 
-# Additional result status codes that are also accepted.
+# Additional result status codes that are also accepted (incomplete).
 const EXTRA_RESULT = Dict(
     JuMP.MOI.NEARLY_FEASIBLE_POINT => (
         JuMP.MOI.FEASIBLE_POINT,

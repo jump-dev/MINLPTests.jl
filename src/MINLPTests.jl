@@ -41,6 +41,9 @@ const EXTRA_RESULT = Dict(
     JuMP.MOI.NEARLY_FEASIBLE_POINT => (
         JuMP.MOI.FEASIBLE_POINT,
     ),
+    JuMP.MOI.NO_SOLUTION => (
+        JuMP.MOI.INFEASIBLE_POINT,
+    ),
 )
 
 function check_status(status::JuMP.MOI.TerminationStatusCode,

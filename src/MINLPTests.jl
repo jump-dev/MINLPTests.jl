@@ -16,12 +16,50 @@ const PRIMAL_TOL = 1e-6
 const DUAL_TOL   = 1e-6
 
 ###
+### Expected status codes for different types of optimizers and problems.
+###
+
+# We only distinguish between feasible and infeasible problems now.
+@enum ProblemTypeCode FEASIBLE_PROBLEM INFEASIBLE_PROBLEM
+
+# Optimizers can decide either local or global optimality.
+@enum SolverCapabilityCode LOCAL GLOBAL
+
+"""
+    OptimizerCapability
+
+A value of the enum OptimizerCapabilityCode.
+"""
+struct OptimizerCapability <: JuMP.MOI.AbstractOptimizerAttribute end
+
+# Optimizers have (assumed) local capabilities, unless specified explicitly.
+JuMP.MOI.get(optimizer::AbstractOptimizer, ::OptimizerCapability) = LOCAL
+
+TERMINATION_TARGET = Dict(
+    (FEASIBLE_PROBLEM, GLOBAL) => JuMP.MOI.OPTIMAL,
+    (FEASIBLE_PROBLEM, LOCAL) => JuMP.MOI.LOCALLY_SOLVED,
+    (INFEASIBLE_PROBLEM, GLOBAL) => JuMP.MOI.INFEASIBLE,
+    (INFEASIBLE_PROBLEM, LOCAL) => JuMP.MOI.LOCALLY_INFEASIBLE,
+)
+
+PRIMAL_TARGET = Dict(
+    (FEASIBLE_PROBLEM, GLOBAL) => JuMP.MOI.FEASIBLE_POINT,
+    (FEASIBLE_PROBLEM, LOCAL) => JuMP.MOI.FEASIBLE_POINT,
+    # not really a property of local/global?!
+    (INFEASIBLE_PROBLEM, GLOBAL) => JuMP.MOI.NO_SOLUTION,
+    (INFEASIBLE_PROBLEM, LOCAL) => JuMP.MOI.INFEASIBLE_POINT,
+)
+
+###
 ### Helper functions for the tests.
 ###
 
-function check_status(model, termination_target, primal_target)
-    @test JuMP.termination_status(model) == termination_target
-    @test JuMP.primal_status(model) == primal_target
+function check_status(model, problem_type::ProblemTypeCode)
+    capability = JuMP.MOI.get(JuMP.backend(model), OptimizerCapability())
+    @test (JuMP.termination_status(model)
+           == get(TERMINATION_TARGET, (problem_type, capability)))
+    @test (JuMP.primal_status(model)
+           == get(PRIMAL_TARGET, (problem_type, capability)))
 end
 
 function check_objective(model, solution; tol = OPT_TOL)

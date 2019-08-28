@@ -1,6 +1,6 @@
-function nlp_008_011(optimizer, objective_tol, primal_tol, dual_tol;
-        termination_target = JuMP.MOI.LOCALLY_SOLVED, 
-        primal_target = JuMP.MOI.FEASIBLE_POINT)
+function nlp_008_011(optimizer, objective_tol, primal_tol, dual_tol,
+        termination_target = TERMINATION_TARGET,
+        primal_target = PRIMAL_TARGET)
     # Test Goals:
     # - dual values
     
@@ -17,7 +17,7 @@ function nlp_008_011(optimizer, objective_tol, primal_tol, dual_tol;
     
     optimize!(m)
     
-    check_status(m, termination_target, primal_target)
+    check_status(m, FEASIBLE_PROBLEM, termination_target, primal_target)
     check_objective(m, -0.3755859312158738, tol = objective_tol)
     check_solution([x,y,z], [-0.593158583913523, 0.2440479041672795, 0.5406271556211383], tol = primal_tol)
     check_dual([c1,c2,c3], [0.0, -0.8697415278248679, 0.06357861274725801], tol = dual_tol)

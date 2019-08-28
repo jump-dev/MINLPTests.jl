@@ -16,50 +16,31 @@ const PRIMAL_TOL = 1e-6
 const DUAL_TOL   = 1e-6
 
 ###
-### Expected status codes for different types of optimizers and problems.
+### Default expected status codes for different types of problems.
 ###
 
 # We only distinguish between feasible and infeasible problems now.
 @enum ProblemTypeCode FEASIBLE_PROBLEM INFEASIBLE_PROBLEM
 
-# Optimizers can decide either local or global optimality.
-@enum SolverCapabilityCode LOCAL GLOBAL
-
-"""
-    OptimizerCapability
-
-A value of the enum OptimizerCapabilityCode.
-"""
-struct OptimizerCapability <: JuMP.MOI.AbstractOptimizerAttribute end
-
-# Optimizers have (assumed) local capabilities, unless specified explicitly.
-JuMP.MOI.get(optimizer::AbstractOptimizer, ::OptimizerCapability) = LOCAL
-
 TERMINATION_TARGET = Dict(
-    (FEASIBLE_PROBLEM, GLOBAL) => JuMP.MOI.OPTIMAL,
-    (FEASIBLE_PROBLEM, LOCAL) => JuMP.MOI.LOCALLY_SOLVED,
-    (INFEASIBLE_PROBLEM, GLOBAL) => JuMP.MOI.INFEASIBLE,
-    (INFEASIBLE_PROBLEM, LOCAL) => JuMP.MOI.LOCALLY_INFEASIBLE,
+    FEASIBLE_PROBLEM => JuMP.MOI.LOCALLY_SOLVED,
+    INFEASIBLE_PROBLEM => JuMP.MOI.LOCALLY_INFEASIBLE,
 )
 
 PRIMAL_TARGET = Dict(
-    (FEASIBLE_PROBLEM, GLOBAL) => JuMP.MOI.FEASIBLE_POINT,
-    (FEASIBLE_PROBLEM, LOCAL) => JuMP.MOI.FEASIBLE_POINT,
-    # not really a property of local/global?!
-    (INFEASIBLE_PROBLEM, GLOBAL) => JuMP.MOI.NO_SOLUTION,
-    (INFEASIBLE_PROBLEM, LOCAL) => JuMP.MOI.INFEASIBLE_POINT,
+    FEASIBLE_PROBLEM => JuMP.MOI.FEASIBLE_POINT,
+    INFEASIBLE_PROBLEM => JuMP.MOI.INFEASIBLE_POINT,
 )
 
 ###
 ### Helper functions for the tests.
 ###
 
-function check_status(model, problem_type::ProblemTypeCode)
-    capability = JuMP.MOI.get(JuMP.backend(model), OptimizerCapability())
-    @test (JuMP.termination_status(model)
-           == get(TERMINATION_TARGET, (problem_type, capability)))
-    @test (JuMP.primal_status(model)
-           == get(PRIMAL_TARGET, (problem_type, capability)))
+function check_status(model, problem_type::ProblemTypeCode,
+                      termination_target=TERMINATION_TARGET,
+                      primal_target=PRIMAL_TARGET)
+    @test JuMP.termination_status(model) == get(TERMINATION_TARGET, problem_type)
+    @test JuMP.primal_status(model) == get(PRIMAL_TARGET, problem_type)
 end
 
 function check_objective(model, solution; tol = OPT_TOL)
@@ -109,12 +90,16 @@ end
 """
 function test_directory(
         directory, optimizer; exclude=String[], include=String[],
-        objective_tol = OPT_TOL, primal_tol = PRIMAL_TOL, dual_tol = DUAL_TOL)
+        objective_tol = OPT_TOL, primal_tol = PRIMAL_TOL, dual_tol = DUAL_TOL,
+        termination_target = TERMINATION_TARGET,
+        primal_target = PRIMAL_TARGET)
+
     @testset "$(directory)" begin
         @testset "$(model_name)" for model_name in list_of_models(directory, exclude, include)
             function_name = string(replace(directory, "-" => "_"), "_", model_name)
             model_function = getfield(MINLPTests, Symbol(function_name))
-            model_function(optimizer, objective_tol, primal_tol, dual_tol)
+            model_function(optimizer, objective_tol, primal_tol, dual_tol,
+                           termination_target, primal_target)
         end
     end
 end
@@ -140,26 +125,38 @@ end
 
 function test_nlp(
         optimizer; exclude = String[], objective_tol = OPT_TOL,
-        primal_tol = PRIMAL_TOL, dual_tol = DUAL_TOL)
+        primal_tol = PRIMAL_TOL, dual_tol = DUAL_TOL,
+        termination_target = TERMINATION_TARGET,
+        primal_target = PRIMAL_TARGET)
     test_directory("nlp", optimizer;
         exclude = exclude, objective_tol = objective_tol,
-        primal_tol = primal_tol, dual_tol = dual_tol)
+        primal_tol = primal_tol, dual_tol = dual_tol,
+        termination_target = termination_target,
+        primal_target = primal_target)
 end
 
 function test_nlp_cvx(
         optimizer; exclude = String[], objective_tol = OPT_TOL,
-        primal_tol = PRIMAL_TOL, dual_tol = DUAL_TOL)
+        primal_tol = PRIMAL_TOL, dual_tol = DUAL_TOL,
+        termination_target = TERMINATION_TARGET,
+        primal_target = PRIMAL_TARGET)
     test_directory("nlp-cvx", optimizer;
         exclude = exclude, objective_tol = objective_tol,
-        primal_tol = primal_tol, dual_tol = dual_tol)
+        primal_tol = primal_tol, dual_tol = dual_tol,
+        termination_target = termination_target,
+        primal_target = primal_target)
 end
 
 function test_nlp_mi(
         optimizer; exclude = String[], objective_tol = OPT_TOL,
-        primal_tol = PRIMAL_TOL, dual_tol = DUAL_TOL)
+        primal_tol = PRIMAL_TOL, dual_tol = DUAL_TOL,
+        termination_target = TERMINATION_TARGET,
+        primal_target = PRIMAL_TARGET)
     test_directory("nlp-mi", optimizer;
         exclude = exclude, objective_tol = objective_tol,
-        primal_tol = primal_tol, dual_tol = dual_tol)
+        primal_tol = primal_tol, dual_tol = dual_tol,
+        termination_target = termination_target,
+        primal_target = primal_target)
 end
 
 ### Tests that haven't been updated.

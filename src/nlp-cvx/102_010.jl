@@ -1,6 +1,6 @@
-function nlp_cvx_102_010(optimizer, objective_tol, primal_tol, dual_tol;
-        termination_target = JuMP.MOI.LOCALLY_SOLVED, 
-        primal_target = JuMP.MOI.FEASIBLE_POINT)
+function nlp_cvx_102_010(optimizer, objective_tol, primal_tol, dual_tol,
+        termination_target = TERMINATION_TARGET,
+        primal_target = PRIMAL_TARGET)
     # Test Goals:
     # - linear and nonlinear constraints
     # Variants
@@ -21,7 +21,7 @@ function nlp_cvx_102_010(optimizer, objective_tol, primal_tol, dual_tol;
     
     optimize!(m)
     
-    check_status(m, termination_target, primal_target)
+    check_status(m, FEASIBLE_PROBLEM, termination_target, primal_target)
     check_objective(m, -0.974165743715913, tol = objective_tol)
     check_solution([x,y], [0.974165743715913, 0.2258342542139504], tol = primal_tol)
     

@@ -1,6 +1,6 @@
-function nlp_cvx_106_010(optimizer, objective_tol, primal_tol, dual_tol;
-        termination_target = JuMP.MOI.LOCALLY_SOLVED, 
-        primal_target = JuMP.MOI.FEASIBLE_POINT)
+function nlp_cvx_106_010(optimizer, objective_tol, primal_tol, dual_tol,
+        termination_target = TERMINATION_TARGET,
+        primal_target = PRIMAL_TARGET)
     # Test Goals:
     # - cos and sin expressions
     # - convex constraint, only in given domains
@@ -19,7 +19,7 @@ function nlp_cvx_106_010(optimizer, objective_tol, primal_tol, dual_tol;
     
     optimize!(m)
     
-    check_status(m, termination_target, primal_target)
+    check_status(m, FEASIBLE_PROBLEM, termination_target, primal_target)
     check_objective(m, -1.8572155128552428, tol = objective_tol)
     check_solution([x,y], [1.369771397576555, 0.4874441152786876], tol = primal_tol)
     

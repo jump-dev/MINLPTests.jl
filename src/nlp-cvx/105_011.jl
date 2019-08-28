@@ -1,6 +1,6 @@
-function nlp_cvx_105_011(optimizer, objective_tol, primal_tol, dual_tol;
-        termination_target = JuMP.MOI.LOCALLY_SOLVED, 
-        primal_target = JuMP.MOI.FEASIBLE_POINT)
+function nlp_cvx_105_011(optimizer, objective_tol, primal_tol, dual_tol,
+        termination_target = TERMINATION_TARGET,
+        primal_target = PRIMAL_TARGET)
     m = Model(optimizer)
     
     @variable(m, x, start=0.1)
@@ -12,7 +12,7 @@ function nlp_cvx_105_011(optimizer, objective_tol, primal_tol, dual_tol;
     
     optimize!(m)
     
-    check_status(m, termination_target, primal_target)
+    check_status(m, FEASIBLE_PROBLEM, termination_target, primal_target)
     check_objective(m, 0.16878271368156372, tol = objective_tol)
     check_solution([x,y], [0.45538805755556067, -0.28660534387399694], tol = primal_tol)
     

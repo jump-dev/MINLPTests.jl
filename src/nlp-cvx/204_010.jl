@@ -1,6 +1,6 @@
-function nlp_cvx_204_010(optimizer, objective_tol, primal_tol, dual_tol;
-        termination_target = JuMP.MOI.LOCALLY_SOLVED, 
-        primal_target = JuMP.MOI.FEASIBLE_POINT)
+function nlp_cvx_204_010(optimizer, objective_tol, primal_tol, dual_tol,
+        termination_target = TERMINATION_TARGET,
+        primal_target = PRIMAL_TARGET)
     # Test Goals:
     # - linear objective
     # - intersection convex quadratic constraints
@@ -20,7 +20,7 @@ function nlp_cvx_204_010(optimizer, objective_tol, primal_tol, dual_tol;
     
     optimize!(m)
     
-    check_status(m, termination_target, primal_target)
+    check_status(m, FEASIBLE_PROBLEM, termination_target, primal_target)
     check_objective(m, -1.2071067837918394, tol = objective_tol)
     check_solution([x,y,z], [0.353553392657669, 0.8535533911341705, 0.14644661317207716], tol = primal_tol)
     

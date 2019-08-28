@@ -1,6 +1,6 @@
-function nlp_mi_007_010(optimizer, objective_tol, primal_tol, dual_tol;
-        termination_target = JuMP.MOI.LOCALLY_INFEASIBLE,
-        primal_target = JuMP.MOI.INFEASIBLE_POINT)
+function nlp_mi_007_010(optimizer, objective_tol, primal_tol, dual_tol,
+        termination_target = TERMINATION_TARGET,
+        primal_target = PRIMAL_TARGET)
     # Test Goals:
     # - infeasible model
 
@@ -14,6 +14,6 @@ function nlp_mi_007_010(optimizer, objective_tol, primal_tol, dual_tol;
 
     optimize!(m)
 
-    check_status(m, termination_target, primal_target)
+    check_status(m, INFEASIBLE_PROBLEM, termination_target, primal_target)
     
 end

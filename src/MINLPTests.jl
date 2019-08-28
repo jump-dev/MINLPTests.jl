@@ -39,8 +39,8 @@ const PRIMAL_TARGET = Dict(
 function check_status(model, problem_type::ProblemTypeCode,
                       termination_target=TERMINATION_TARGET,
                       primal_target=PRIMAL_TARGET)
-    @test JuMP.termination_status(model) == TERMINATION_TARGET[problem_type]
-    @test JuMP.primal_status(model) == PRIMAL_TARGET[problem_type]
+    @test JuMP.termination_status(model) == termination_target[problem_type]
+    @test JuMP.primal_status(model) == primal_target[problem_type]
 end
 
 function check_objective(model, solution; tol = OPT_TOL)

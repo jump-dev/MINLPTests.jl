@@ -1,6 +1,6 @@
 function nlp_001_010(optimizer, objective_tol, primal_tol, dual_tol,
-        termination_target = TERMINATION_TARGET,
-        primal_target = PRIMAL_TARGET)
+        termination_target = TERMINATION_TARGET_LOCAL,
+        primal_target = PRIMAL_TARGET_LOCAL)
     # Test Goals:
     # - mix of variable start values
     # - non-linear objective without constraints

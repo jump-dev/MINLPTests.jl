@@ -1,6 +1,6 @@
 function nlp_mi_003_015(optimizer, objective_tol, primal_tol, dual_tol,
-        termination_target = TERMINATION_TARGET,
-        primal_target = PRIMAL_TARGET)
+        termination_target = TERMINATION_TARGET_LOCAL,
+        primal_target = PRIMAL_TARGET_LOCAL)
     # Test Goals:
     # - quadratic objective as NLobjective and non-linear constraints
 

@@ -1,6 +1,6 @@
 function nlp_003_013(optimizer, objective_tol, primal_tol, dual_tol,
-        termination_target = TERMINATION_TARGET,
-        primal_target = PRIMAL_TARGET)
+        termination_target = TERMINATION_TARGET_LOCAL,
+        primal_target = PRIMAL_TARGET_LOCAL)
     # Test Goals:
     # - linear objective as NLobjective and non-linear constraints
     

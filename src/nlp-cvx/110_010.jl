@@ -1,6 +1,6 @@
 function nlp_cvx_110_010(optimizer, objective_tol, primal_tol, dual_tol,
-        termination_target = TERMINATION_TARGET,
-        primal_target = PRIMAL_TARGET)
+        termination_target = TERMINATION_TARGET_LOCAL,
+        primal_target = PRIMAL_TARGET_LOCAL)
     # Test Goals:
     # - convex e objective
     # - binding nonlinear constraint

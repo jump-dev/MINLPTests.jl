@@ -1,6 +1,6 @@
-function nlp_004_010(optimizer, objective_tol, primal_tol, dual_tol;
-        termination_target = JuMP.MOI.LOCALLY_SOLVED, 
-        primal_target = JuMP.MOI.FEASIBLE_POINT)
+function nlp_004_010(optimizer, objective_tol, primal_tol, dual_tol,
+        termination_target = TERMINATION_TARGET_LOCAL,
+        primal_target = PRIMAL_TARGET_LOCAL)
     # Test Goals:
     # - non-linear objective and linear, quadratic constraints
     # - functions tan, abs, *
@@ -17,7 +17,7 @@ function nlp_004_010(optimizer, objective_tol, primal_tol, dual_tol;
     
     optimize!(m)
     
-    check_status(m, termination_target, primal_target)
+    check_status(m, FEASIBLE_PROBLEM, termination_target, primal_target)
     check_objective(m, -4.87215904079771, tol = objective_tol)
     check_solution([x,y,z], [-1, -0.9160817459806899, 2.8567103830800886], tol = primal_tol)
     

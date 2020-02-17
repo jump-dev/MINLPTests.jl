@@ -11,14 +11,14 @@ const POLY_SOLVERS = [IPOPT]
 const MIPOLY_SOLVERS = [JUNIPER]
 
 @testset "JuMP Model Tests" begin
-    @testset "$(solver.constructor): nlp" for solver in NLP_SOLVERS
+    @testset "$(solver): nlp" for solver in NLP_SOLVERS
         #MINLPTests.test_nlp(solver)
         MINLPTests.test_nlp(solver, exclude = [
             "005_011",  # Uses the function `\`
         ])
         MINLPTests.test_nlp_cvx(solver)
     end
-    @testset "$(solver.constructor): nlp_mi" for solver in MINLP_SOLVERS
+    @testset "$(solver): nlp_mi" for solver in MINLP_SOLVERS
         #MINLPTests.test_nlp_mi(solver)
         MINLPTests.test_nlp_mi(solver, exclude = [
             "003_013",  # Bug in Juniper - handling of expression graph?
@@ -27,11 +27,11 @@ const MIPOLY_SOLVERS = [JUNIPER]
         ])
         MINLPTests.test_nlp_mi_cvx(solver)
     end
-    @testset "$(solver.constructor): poly" for solver in POLY_SOLVERS
+    @testset "$(solver): poly" for solver in POLY_SOLVERS
         MINLPTests.test_poly(solver)
         MINLPTests.test_poly_cvx(solver)
     end
-    @testset "$(solver.constructor): poly_mi" for solver in MIPOLY_SOLVERS
+    @testset "$(solver): poly_mi" for solver in MIPOLY_SOLVERS
         MINLPTests.test_poly_mi(solver)
         MINLPTests.test_poly_mi_cvx(solver)
     end

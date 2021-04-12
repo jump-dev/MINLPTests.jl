@@ -1,18 +1,21 @@
 # MINLPTests.jl
 
-**master:** [![Build Status](https://travis-ci.org/jump-dev/MINLPTests.jl.svg?branch=master)](https://travis-ci.org/jump-dev/MINLPTests.jl)
+This is a collection of JuMP models for testing nonlinear/polynomial solvers 
+with and without discrete variables in JuMP.
 
-This is a collection of JuMP models for testing nonlinear/polynomial solvers with and without discrete variables in JuMP.
+This version is compatible with the current release of JuMP (using 
+MathOptInterface).
 
-This version is compatible with the current release of JuMP (using MathOptInterface).  Past versions are compatable with previous releases of JuMP (using MathProgBase).
-
-
+[![Build Status](https://github.com/jump-dev/MINLPTests.jl/workflows/CI/badge.svg?branch=master)](https://github.com/jump-dev/MINLPTests.jl/actions?query=workflow%3ACI)
 ## Test Design Guidelines
 
-* The tests are organized into broad categories based on the scope of typical solvers (e.g. continuous, convex functions, polynomial, ...)
-* Unit tests for JuMP integration testing should be "easy" models.  For example, it should be possible for a non-global solver to find the global solution in these tests
-* Mathematical property tests can be more difficult but should strive to be as simple as possible
-
+* The tests are organized into broad categories based on the scope of typical 
+  (e.g. continuous, convex functions, polynomial, ...)
+* Unit tests for JuMP integration testing should be "easy" models.  For example, 
+  it should be possible for a non-global solver to find the global solution in 
+  these tests
+* Mathematical property tests can be more difficult but should strive to be as 
+  simple as possible
 
 ## Test Naming Conventions
 

@@ -18,9 +18,12 @@ const MIPOLY_SOLVERS = [JUNIPER]
 
 @testset "JuMP Model Tests" begin
     @testset "$(solver): nlp" for solver in NLP_SOLVERS
-        MINLPTests.test_nlp(solver, exclude = [
-            "005_011",  # Uses the function `\`
-        ])
+        MINLPTests.test_nlp(
+            solver,
+            exclude = ["005_011"],  # Uses the function `\`
+            debug = true,
+        )
+        MINLPTests.test_directory("nlp", solver, include = ["001_010"])
         MINLPTests.test_nlp_cvx(solver)
     end
     @testset "$(solver): nlp_mi" for solver in MINLP_SOLVERS

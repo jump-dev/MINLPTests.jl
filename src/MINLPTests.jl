@@ -93,19 +93,43 @@ for directory in ["nlp", "nlp-cvx", "nlp-mi"]
 end
 
 """
-    test_directory(directory, optimizer; exclude=String[], include=String[])
+    test_directory(
+        directory,
+        optimizer;
+        debug::Bool = false,
+        exclude = String[],
+        include = String[],
+        objective_tol = OPT_TOL,
+        primal_tol = PRIMAL_TOL,
+        dual_tol = DUAL_TOL,
+        termination_target = TERMINATION_TARGET_LOCAL,
+        primal_target = PRIMAL_TARGET_LOCAL,
+    )
 
-### Example
+Test all of the files in `directory` using `optimizer`.
 
-    optimizer = JuMP.with_optimizer(Ipopt.Optimizer)
-    # Test all but nlp_001_010.
-    test_directory("nlp", optimizer; exclude = ["001_010"])
-    # Test only nlp_001_010.
-    test_directory("nlp", optimizer; include = ["001_010"])
+If `debug`, print the name of the file befor running it.
+
+Use `exclude` and `include` to run a subset of the files in a directory.
+
+Use the remaining args to control tolerances and status targets.
+
+## Example
+
+Test all but nlp_001_010:
+```julia
+test_directory("nlp", optimizer; exclude = ["001_010"])
+```
+
+Test only nlp_001_010:
+```julia
+test_directory("nlp", optimizer; include = ["001_010"])
+```
 """
 function test_directory(
     directory,
     optimizer;
+    debug::Bool = false,
     exclude = String[],
     include = String[],
     objective_tol = OPT_TOL,
@@ -116,9 +140,11 @@ function test_directory(
 )
     @testset "$(directory)" begin
         models = _list_of_models(directory, exclude, include)
-        dir = replace(directory, "-" => "_")
         @testset "$(model_name)" for model_name in models
-            getfield(MINLPTests, Symbol("$(dir)_$(model_name)"))(
+            if debug
+                println("Running $(model_name)")
+            end
+            getfield(MINLPTests, model_name)(
                 optimizer,
                 objective_tol,
                 primal_tol,
@@ -135,15 +161,20 @@ function _list_of_models(
     exclude::Vector{String},
     include::Vector{String},
 )
+    dir = replace(directory, "-" => "_")
     if length(include) > 0
-        return include
+        return [Symbol("$(dir)_$(i)") for i in include]
     else
-        models = String[]
+        models = Symbol[]
         for file in readdir(joinpath(@__DIR__, directory))
-            !endswith(file, ".jl") && continue
+            if !endswith(file, ".jl")
+                continue
+            end
             file = replace(file, ".jl" => "")
-            file in exclude && continue
-            push!(models, file)
+            if file in exclude
+                continue
+            end
+            push!(models, Symbol("$(dir)_$(file)"))
         end
         return models
     end
@@ -155,6 +186,7 @@ end
 
 function test_nlp(
     optimizer;
+    debug::Bool = false,
     exclude = String[],
     objective_tol = OPT_TOL,
     primal_tol = PRIMAL_TOL,
@@ -165,6 +197,7 @@ function test_nlp(
     return test_directory(
         "nlp",
         optimizer;
+        debug = debug,
         exclude = exclude,
         objective_tol = objective_tol,
         primal_tol = primal_tol,
@@ -176,6 +209,7 @@ end
 
 function test_nlp_cvx(
     optimizer;
+    debug::Bool = false,
     exclude = String[],
     objective_tol = OPT_TOL,
     primal_tol = PRIMAL_TOL,
@@ -186,6 +220,7 @@ function test_nlp_cvx(
     return test_directory(
         "nlp-cvx",
         optimizer;
+        debug = debug,
         exclude = exclude,
         objective_tol = objective_tol,
         primal_tol = primal_tol,
@@ -197,6 +232,7 @@ end
 
 function test_nlp_mi(
     optimizer;
+    debug::Bool = false,
     exclude = String[],
     objective_tol = OPT_TOL,
     primal_tol = PRIMAL_TOL,
@@ -207,6 +243,7 @@ function test_nlp_mi(
     return test_directory(
         "nlp-mi",
         optimizer;
+        debug = debug,
         exclude = exclude,
         objective_tol = objective_tol,
         primal_tol = primal_tol,

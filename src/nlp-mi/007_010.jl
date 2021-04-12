@@ -1,19 +1,28 @@
-function nlp_mi_007_010(optimizer, objective_tol, primal_tol, dual_tol,
-        termination_target = TERMINATION_TARGET_LOCAL,
-        primal_target = PRIMAL_TARGET_LOCAL)
+function nlp_mi_007_010(
+    optimizer,
+    objective_tol,
+    primal_tol,
+    dual_tol,
+    termination_target = TERMINATION_TARGET_LOCAL,
+    primal_target = PRIMAL_TARGET_LOCAL,
+)
     # Test Goals:
     # - infeasible model
 
-    m = Model(optimizer)
+    model = Model(optimizer)
 
-    @variable(m, x, Int)
-    @variable(m, y, Int)
+    @variable(model, x, Int)
+    @variable(model, y, Int)
 
-    @NLconstraint(m, y == exp(x))
-    @constraint(m, x == y^2)
+    @NLconstraint(model, y == exp(x))
+    @constraint(model, x == y^2)
 
-    optimize!(m)
+    optimize!(model)
 
-    check_status(m, INFEASIBLE_PROBLEM, termination_target, primal_target)
-    
+    return check_status(
+        model,
+        INFEASIBLE_PROBLEM,
+        termination_target,
+        primal_target,
+    )
 end

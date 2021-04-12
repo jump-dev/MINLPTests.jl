@@ -3,7 +3,5 @@ function test_poly(s)
 
     test_dir = dirname(@__FILE__)
 
-    @testset "Nonconvex Polynomial Models" begin
-
-    end
+    @testset "Nonconvex Polynomial Models" begin end
 end

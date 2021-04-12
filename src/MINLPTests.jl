@@ -1,19 +1,20 @@
 module MINLPTests
 
-using JuMP, Test
+using JuMP
+using Test
 
 ###
 ### Default tolerances that are used in the tests.
 ###
 
 # Absolute tolerance when checking the objective value.
-const OPT_TOL    = 1e-6
+const OPT_TOL = 1e-6
 
 # Absolute tolerance when checking the primal solution value.
 const PRIMAL_TOL = 1e-6
 
 # Absolue tolerance when checking the dual solution value.
-const DUAL_TOL   = 1e-6
+const DUAL_TOL = 1e-6
 
 ###
 ### Default expected status codes for different types of problems and solvers.
@@ -46,9 +47,12 @@ const PRIMAL_TARGET_GLOBAL = Dict(
 ### Helper functions for the tests.
 ###
 
-function check_status(model, problem_type::ProblemTypeCode,
-                      termination_target=TERMINATION_TARGET_LOCAL,
-                      primal_target=PRIMAL_TARGET_LOCAL)
+function check_status(
+    model,
+    problem_type::ProblemTypeCode,
+    termination_target = TERMINATION_TARGET_LOCAL,
+    primal_target = PRIMAL_TARGET_LOCAL,
+)
     @test JuMP.termination_status(model) == termination_target[problem_type]
     @test JuMP.primal_status(model) == primal_target[problem_type]
 end
@@ -82,7 +86,8 @@ end
 ###
 
 for directory in ["nlp", "nlp-cvx", "nlp-mi"]
-    for file_name in filter(f -> endswith(f, ".jl"), readdir(joinpath(@__DIR__, directory)))
+    files = readdir(joinpath(@__DIR__, directory))
+    for file_name in filter(f -> endswith(f, ".jl"), files)
         include(joinpath(@__DIR__, directory, file_name))
     end
 end
@@ -99,22 +104,37 @@ end
     test_directory("nlp", optimizer; include = ["001_010"])
 """
 function test_directory(
-        directory, optimizer; exclude=String[], include=String[],
-        objective_tol = OPT_TOL, primal_tol = PRIMAL_TOL, dual_tol = DUAL_TOL,
-        termination_target = TERMINATION_TARGET_LOCAL,
-        primal_target = PRIMAL_TARGET_LOCAL)
-
+    directory,
+    optimizer;
+    exclude = String[],
+    include = String[],
+    objective_tol = OPT_TOL,
+    primal_tol = PRIMAL_TOL,
+    dual_tol = DUAL_TOL,
+    termination_target = TERMINATION_TARGET_LOCAL,
+    primal_target = PRIMAL_TARGET_LOCAL,
+)
     @testset "$(directory)" begin
-        @testset "$(model_name)" for model_name in list_of_models(directory, exclude, include)
-            function_name = string(replace(directory, "-" => "_"), "_", model_name)
-            model_function = getfield(MINLPTests, Symbol(function_name))
-            model_function(optimizer, objective_tol, primal_tol, dual_tol,
-                           termination_target, primal_target)
+        models = _list_of_models(directory, exclude, include)
+        dir = replace(directory, "-" => "_")
+        @testset "$(model_name)" for model_name in models
+            getfield(MINLPTests, Symbol("$(dir)_$(model_name)"))(
+                optimizer,
+                objective_tol,
+                primal_tol,
+                dual_tol,
+                termination_target,
+                primal_target,
+            )
         end
     end
 end
 
-function list_of_models(directory, exclude::Vector{String}, include::Vector{String})
+function _list_of_models(
+    directory,
+    exclude::Vector{String},
+    include::Vector{String},
+)
     if length(include) > 0
         return include
     else
@@ -134,39 +154,66 @@ end
 ###
 
 function test_nlp(
-        optimizer; exclude = String[], objective_tol = OPT_TOL,
-        primal_tol = PRIMAL_TOL, dual_tol = DUAL_TOL,
-        termination_target = TERMINATION_TARGET_LOCAL,
-        primal_target = PRIMAL_TARGET_LOCAL)
-    test_directory("nlp", optimizer;
-        exclude = exclude, objective_tol = objective_tol,
-        primal_tol = primal_tol, dual_tol = dual_tol,
+    optimizer;
+    exclude = String[],
+    objective_tol = OPT_TOL,
+    primal_tol = PRIMAL_TOL,
+    dual_tol = DUAL_TOL,
+    termination_target = TERMINATION_TARGET_LOCAL,
+    primal_target = PRIMAL_TARGET_LOCAL,
+)
+    return test_directory(
+        "nlp",
+        optimizer;
+        exclude = exclude,
+        objective_tol = objective_tol,
+        primal_tol = primal_tol,
+        dual_tol = dual_tol,
         termination_target = termination_target,
-        primal_target = primal_target)
+        primal_target = primal_target,
+    )
 end
 
 function test_nlp_cvx(
-        optimizer; exclude = String[], objective_tol = OPT_TOL,
-        primal_tol = PRIMAL_TOL, dual_tol = DUAL_TOL,
-        termination_target = TERMINATION_TARGET_LOCAL,
-        primal_target = PRIMAL_TARGET_LOCAL)
-    test_directory("nlp-cvx", optimizer;
-        exclude = exclude, objective_tol = objective_tol,
-        primal_tol = primal_tol, dual_tol = dual_tol,
+    optimizer;
+    exclude = String[],
+    objective_tol = OPT_TOL,
+    primal_tol = PRIMAL_TOL,
+    dual_tol = DUAL_TOL,
+    termination_target = TERMINATION_TARGET_LOCAL,
+    primal_target = PRIMAL_TARGET_LOCAL,
+)
+    return test_directory(
+        "nlp-cvx",
+        optimizer;
+        exclude = exclude,
+        objective_tol = objective_tol,
+        primal_tol = primal_tol,
+        dual_tol = dual_tol,
         termination_target = termination_target,
-        primal_target = primal_target)
+        primal_target = primal_target,
+    )
 end
 
 function test_nlp_mi(
-        optimizer; exclude = String[], objective_tol = OPT_TOL,
-        primal_tol = PRIMAL_TOL, dual_tol = DUAL_TOL,
-        termination_target = TERMINATION_TARGET_LOCAL,
-        primal_target = PRIMAL_TARGET_LOCAL)
-    test_directory("nlp-mi", optimizer;
-        exclude = exclude, objective_tol = objective_tol,
-        primal_tol = primal_tol, dual_tol = dual_tol,
+    optimizer;
+    exclude = String[],
+    objective_tol = OPT_TOL,
+    primal_tol = PRIMAL_TOL,
+    dual_tol = DUAL_TOL,
+    termination_target = TERMINATION_TARGET_LOCAL,
+    primal_target = PRIMAL_TARGET_LOCAL,
+)
+    return test_directory(
+        "nlp-mi",
+        optimizer;
+        exclude = exclude,
+        objective_tol = objective_tol,
+        primal_tol = primal_tol,
+        dual_tol = dual_tol,
         termination_target = termination_target,
-        primal_target = primal_target)
+        primal_target = primal_target,
+    )
 end
 
 ### Tests that haven't been updated.

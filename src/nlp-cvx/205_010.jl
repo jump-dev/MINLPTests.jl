@@ -1,6 +1,11 @@
-function nlp_cvx_205_010(optimizer, objective_tol, primal_tol, dual_tol,
-        termination_target = TERMINATION_TARGET_LOCAL,
-        primal_target = PRIMAL_TARGET_LOCAL)
+function nlp_cvx_205_010(
+    optimizer,
+    objective_tol,
+    primal_tol,
+    dual_tol,
+    termination_target = TERMINATION_TARGET_LOCAL,
+    primal_target = PRIMAL_TARGET_LOCAL,
+)
     # Test Goals:
     # - linear objective
     # - intersection convex quadratic constraints
@@ -8,21 +13,24 @@ function nlp_cvx_205_010(optimizer, objective_tol, primal_tol, dual_tol,
     # Variants
     #   010 - intersection set
 
-    m = Model(optimizer)
+    model = Model(optimizer)
 
-    @variable(m, x)
-    @variable(m, y >= 0, start=0.1)
-    @variable(m, z)
+    @variable(model, x)
+    @variable(model, y >= 0, start = 0.1)
+    @variable(model, z)
 
-    @objective(m, Max, y)
-    @NLconstraint(m, y * exp(x / y) <= z)
-    @NLconstraint(m, y * exp(-x / y) <= z)
-    @NLconstraint(m, x^2 + y^2 <= -z + 5)
+    @objective(model, Max, y)
+    @NLconstraint(model, y * exp(x / y) <= z)
+    @NLconstraint(model, y * exp(-x / y) <= z)
+    @NLconstraint(model, x^2 + y^2 <= -z + 5)
 
-    optimize!(m)
+    optimize!(model)
 
-    check_status(m, FEASIBLE_PROBLEM, termination_target, primal_target)
-    check_objective(m, 1.7912878443121907, tol = objective_tol)
-    check_solution([x,y,z], [0.0, 1.7912878443121907, 1.7912878443121907], tol = primal_tol)
-
+    check_status(model, FEASIBLE_PROBLEM, termination_target, primal_target)
+    check_objective(model, 1.7912878443121907, tol = objective_tol)
+    return check_solution(
+        [x, y, z],
+        [0.0, 1.7912878443121907, 1.7912878443121907],
+        tol = primal_tol,
+    )
 end

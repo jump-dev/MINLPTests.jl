@@ -1,19 +1,23 @@
-function nlp_cvx_103_011(optimizer, objective_tol, primal_tol, dual_tol,
-        termination_target = TERMINATION_TARGET_LOCAL,
-        primal_target = PRIMAL_TARGET_LOCAL)
-    m = Model(optimizer)
+function nlp_cvx_103_011(
+    optimizer,
+    objective_tol,
+    primal_tol,
+    dual_tol,
+    termination_target = TERMINATION_TARGET_LOCAL,
+    primal_target = PRIMAL_TARGET_LOCAL,
+)
+    model = Model(optimizer)
 
-    @variable(m, x)
-    @variable(m, y)
+    @variable(model, x)
+    @variable(model, y)
 
-    @objective(m, Min, -y)
-    @NLconstraint(m, x^2 <= y)
-    @NLconstraint(m, -x^2 + 1 >= y)
+    @objective(model, Min, -y)
+    @NLconstraint(model, x^2 <= y)
+    @NLconstraint(model, -x^2 + 1 >= y)
 
-    optimize!(m)
+    optimize!(model)
 
-    check_status(m, FEASIBLE_PROBLEM, termination_target, primal_target)
-    check_objective(m, -1, tol = objective_tol)
-    check_solution([x,y], [0, 1], tol = primal_tol)
-
+    check_status(model, FEASIBLE_PROBLEM, termination_target, primal_target)
+    check_objective(model, -1, tol = objective_tol)
+    return check_solution([x, y], [0, 1], tol = primal_tol)
 end

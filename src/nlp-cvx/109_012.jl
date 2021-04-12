@@ -1,18 +1,22 @@
-function nlp_cvx_109_012(optimizer, objective_tol, primal_tol, dual_tol,
-        termination_target = TERMINATION_TARGET_LOCAL,
-        primal_target = PRIMAL_TARGET_LOCAL)
-    m = Model(optimizer)
+function nlp_cvx_109_012(
+    optimizer,
+    objective_tol,
+    primal_tol,
+    dual_tol,
+    termination_target = TERMINATION_TARGET_LOCAL,
+    primal_target = PRIMAL_TARGET_LOCAL,
+)
+    model = Model(optimizer)
 
-    @variable(m, x >= 0.00001, start=0.1)
-    @variable(m, y >= 0.00001, start=0.1)
+    @variable(model, x >= 0.00001, start = 0.1)
+    @variable(model, y >= 0.00001, start = 0.1)
 
-    @NLobjective(m, Max, log(x+y))
-    @NLconstraint(m, (y-2)^2 <= -x+2)
+    @NLobjective(model, Max, log(x + y))
+    @NLconstraint(model, (y - 2)^2 <= -x + 2)
 
-    optimize!(m)
+    optimize!(model)
 
-    check_status(m, FEASIBLE_PROBLEM, termination_target, primal_target)
-    check_objective(m, log(7/4 + 5/2), tol = objective_tol)
-    check_solution([x,y], [7/4, 5/2], tol = primal_tol)
-
+    check_status(model, FEASIBLE_PROBLEM, termination_target, primal_target)
+    check_objective(model, log(7 / 4 + 5 / 2), tol = objective_tol)
+    return check_solution([x, y], [7 / 4, 5 / 2], tol = primal_tol)
 end

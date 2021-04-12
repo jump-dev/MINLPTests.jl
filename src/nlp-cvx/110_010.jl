@@ -1,6 +1,11 @@
-function nlp_cvx_110_010(optimizer, objective_tol, primal_tol, dual_tol,
-        termination_target = TERMINATION_TARGET_LOCAL,
-        primal_target = PRIMAL_TARGET_LOCAL)
+function nlp_cvx_110_010(
+    optimizer,
+    objective_tol,
+    primal_tol,
+    dual_tol,
+    termination_target = TERMINATION_TARGET_LOCAL,
+    primal_target = PRIMAL_TARGET_LOCAL,
+)
     # Test Goals:
     # - convex e objective
     # - binding nonlinear constraint
@@ -8,20 +13,18 @@ function nlp_cvx_110_010(optimizer, objective_tol, primal_tol, dual_tol,
     #   010 - binding constraint (one variable non-zero)
     #   011 - binding constraint (both variables non-zero)
     #   012 - binding constraint (both variables non-zero)
-    
-    m = Model(optimizer)
-    
-    @variable(m, x)
-    @variable(m, y)
-    
-    @NLobjective(m, Min, exp(x))
-    @NLconstraint(m, x^2 + y^2 <= 1.0)
-    
-    optimize!(m)
-    
-    check_status(m, FEASIBLE_PROBLEM, termination_target, primal_target)
-    check_objective(m, exp(-1), tol = objective_tol)
-    check_solution([x,y], [-1.0, 0.0], tol = primal_tol)
-    
-end
 
+    model = Model(optimizer)
+
+    @variable(model, x)
+    @variable(model, y)
+
+    @NLobjective(model, Min, exp(x))
+    @NLconstraint(model, x^2 + y^2 <= 1.0)
+
+    optimize!(model)
+
+    check_status(model, FEASIBLE_PROBLEM, termination_target, primal_target)
+    check_objective(model, exp(-1), tol = objective_tol)
+    return check_solution([x, y], [-1.0, 0.0], tol = primal_tol)
+end

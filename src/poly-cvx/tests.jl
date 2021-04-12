@@ -3,7 +3,5 @@ function test_poly_cvx(s)
 
     test_dir = dirname(@__FILE__)
 
-    @testset "Convex Polynomial Models" begin
-
-    end
+    @testset "Convex Polynomial Models" begin end
 end

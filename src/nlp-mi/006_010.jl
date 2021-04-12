@@ -1,10 +1,15 @@
-function nlp_mi_006_010(optimizer, objective_tol, primal_tol, dual_tol,
-        termination_target = TERMINATION_TARGET_LOCAL,
-        primal_target = PRIMAL_TARGET_LOCAL)
+function nlp_mi_006_010(
+    optimizer,
+    objective_tol,
+    primal_tol,
+    dual_tol,
+    termination_target = TERMINATION_TARGET_LOCAL,
+    primal_target = PRIMAL_TARGET_LOCAL,
+)
     # Test Goals:
     # - user defined functions
 
-    m = Model(optimizer)
+    model = Model(optimizer)
 
     function user_function_1d(x)
         if x >= 0
@@ -13,24 +18,39 @@ function nlp_mi_006_010(optimizer, objective_tol, primal_tol, dual_tol,
             return log(-x + 3)
         end
     end
-    JuMP.register(m, :user_function_1d, 1, user_function_1d, autodiff=true)
+    JuMP.register(
+        model,
+        :user_function_1d,
+        1,
+        user_function_1d,
+        autodiff = true,
+    )
 
-    function user_function_2d(x,y)
+    function user_function_2d(x, y)
         return x^2 + y^3
     end
-    JuMP.register(m, :user_function_2d, 2, user_function_2d, autodiff=true)
+    JuMP.register(
+        model,
+        :user_function_2d,
+        2,
+        user_function_2d,
+        autodiff = true,
+    )
 
-    @variable(m, x)
-    @variable(m, y, Bin)
+    @variable(model, x)
+    @variable(model, y, Bin)
 
-    @objective(m, Max, y + x)
-    @NLconstraint(m, y >= user_function_1d(x))
-    @NLconstraint(m, user_function_2d(x,y) <= 2)
+    @objective(model, Max, y + x)
+    @NLconstraint(model, y >= user_function_1d(x))
+    @NLconstraint(model, user_function_2d(x, y) <= 2)
 
-    optimize!(m)
+    optimize!(model)
 
-    check_status(m, FEASIBLE_PROBLEM, termination_target, primal_target)
-    check_objective(m, 1.8813786425753092, tol = objective_tol)
-    check_solution([x,y], [0.7546057578960682, 1.1267728846792409], tol = primal_tol)
-
+    check_status(model, FEASIBLE_PROBLEM, termination_target, primal_target)
+    check_objective(model, 1.8813786425753092, tol = objective_tol)
+    return check_solution(
+        [x, y],
+        [0.7546057578960682, 1.1267728846792409],
+        tol = primal_tol,
+    )
 end

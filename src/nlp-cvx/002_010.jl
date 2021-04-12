@@ -1,32 +1,39 @@
-function nlp_cvx_002_010(optimizer, objective_tol, primal_tol, dual_tol,
-        termination_target = TERMINATION_TARGET_LOCAL,
-        primal_target = PRIMAL_TARGET_LOCAL)
+function nlp_cvx_002_010(
+    optimizer,
+    objective_tol,
+    primal_tol,
+    dual_tol,
+    termination_target = TERMINATION_TARGET_LOCAL,
+    primal_target = PRIMAL_TARGET_LOCAL,
+)
     # Test Goals:
     # - linear objective
     # - quadratic objective
     # - linear constraints forming an open set
     # Variants
     #   010 - binding constraints
-    #   011 - non-binding constraints 
-    
-    m = Model(optimizer)
-    
-    @variable(m, x)
-    @variable(m, y)
-    
-    @objective(m, Min, x+y)
-    @constraint(m, 1*x-3*y <= 3)
-    @constraint(m, 1*x-5*y <= 0)
-    @constraint(m, 3*x+5*y >= 15)
-    @constraint(m, 7*x+2*y >= 20)
-    @constraint(m, 9*x+1*y >= 20)
-    @constraint(m, 3*x+7*y >= 17)
-    
-    optimize!(m)
-    
-    check_status(m, FEASIBLE_PROBLEM, termination_target, primal_target)
-    check_objective(m, 3.9655172067026196, tol = objective_tol)
-    check_solution([x,y], [2.4137930845761546, 1.5517241221264648], tol = primal_tol)
-    
-end
+    #   011 - non-binding constraints
 
+    model = Model(optimizer)
+
+    @variable(model, x)
+    @variable(model, y)
+
+    @objective(model, Min, x + y)
+    @constraint(model, 1 * x - 3 * y <= 3)
+    @constraint(model, 1 * x - 5 * y <= 0)
+    @constraint(model, 3 * x + 5 * y >= 15)
+    @constraint(model, 7 * x + 2 * y >= 20)
+    @constraint(model, 9 * x + 1 * y >= 20)
+    @constraint(model, 3 * x + 7 * y >= 17)
+
+    optimize!(model)
+
+    check_status(model, FEASIBLE_PROBLEM, termination_target, primal_target)
+    check_objective(model, 3.9655172067026196, tol = objective_tol)
+    return check_solution(
+        [x, y],
+        [2.4137930845761546, 1.5517241221264648],
+        tol = primal_tol,
+    )
+end

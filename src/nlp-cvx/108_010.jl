@@ -1,6 +1,11 @@
-function nlp_cvx_108_010(optimizer, objective_tol, primal_tol, dual_tol,
-        termination_target = TERMINATION_TARGET_LOCAL,
-        primal_target = PRIMAL_TARGET_LOCAL)
+function nlp_cvx_108_010(
+    optimizer,
+    objective_tol,
+    primal_tol,
+    dual_tol,
+    termination_target = TERMINATION_TARGET_LOCAL,
+    primal_target = PRIMAL_TARGET_LOCAL,
+)
     # Test Goals:
     # - convex objective
     # - intersection of constraints
@@ -10,21 +15,19 @@ function nlp_cvx_108_010(optimizer, objective_tol, primal_tol, dual_tol,
     #   011 - intersection point
     #   012 - intersection point
     #   013 - one binding constraint
-    
-    m = Model(optimizer)
-    
-    @variable(m, x >= 0)
-    @variable(m, y >= 0)
-    
-    @objective(m, Min, (x-1.0)^2 + (y-0.75)^2)
-    @NLconstraint(m, 2*x^2 - 4x*y - 4*x + 4 <= y)
-    @NLconstraint(m, y^2 <= -x+2)
-    
-    optimize!(m)
-    
-    check_status(m, FEASIBLE_PROBLEM, termination_target, primal_target)
-    check_objective(m, 0, tol = objective_tol)
-    check_solution([x,y], [1, 0.75], tol = primal_tol)
-    
-end
 
+    model = Model(optimizer)
+
+    @variable(model, x >= 0)
+    @variable(model, y >= 0)
+
+    @objective(model, Min, (x - 1.0)^2 + (y - 0.75)^2)
+    @NLconstraint(model, 2 * x^2 - 4x * y - 4 * x + 4 <= y)
+    @NLconstraint(model, y^2 <= -x + 2)
+
+    optimize!(model)
+
+    check_status(model, FEASIBLE_PROBLEM, termination_target, primal_target)
+    check_objective(model, 0, tol = objective_tol)
+    return check_solution([x, y], [1, 0.75], tol = primal_tol)
+end

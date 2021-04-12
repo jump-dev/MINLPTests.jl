@@ -25,7 +25,7 @@ const MIPOLY_SOLVERS = [JUNIPER]
         )
         @test_throws(
             ErrorException,
-            MINLPTests.test_nlp(solver, include = ["005_011"]),
+            MINLPTests.test_directory("nlp", solver, include = ["005_011"]),
         )
         MINLPTests.test_nlp_cvx(solver)
     end

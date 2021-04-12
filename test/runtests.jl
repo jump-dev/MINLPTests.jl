@@ -23,7 +23,7 @@ const MIPOLY_SOLVERS = [JUNIPER]
             exclude = ["005_011"],  # Uses the function `\`
             debug = true,
         )
-        MINLPTests.test_nlp(solver, include = ["001_010"])
+        MINLPTests.test_directory("nlp", solver, include = ["001_010"])
         MINLPTests.test_nlp_cvx(solver)
     end
     @testset "$(solver): nlp_mi" for solver in MINLP_SOLVERS

@@ -1,14 +1,14 @@
 name = "MINLPTests"
 uuid = "ee0a3090-8ee9-5cdb-b8cb-8eeba3165522"
 repo = "https://github.com/jump-dev/MINLPTests.jl.git"
-version = "0.5.2"
+version = "0.5.3"
 
 [deps]
 JuMP = "4076af6c-e467-56ae-b986-b466b2749572"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [compat]
-Ipopt = "0.6"
+Ipopt = "0.6, 0.7, 0.8"
 JuMP = "0.21, 0.22"
 Juniper = "0.7"
 julia = "1"

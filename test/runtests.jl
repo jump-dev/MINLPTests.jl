@@ -1,14 +1,15 @@
-using Ipopt
-using JuMP
-using Juniper
-using MINLPTests
 using Test
+
+import Ipopt
+import JuMP
+import Juniper
+import MINLPTests
 
 const IPOPT =
     JuMP.optimizer_with_attributes(Ipopt.Optimizer, "print_level" => 0)
 
 const JUNIPER = JuMP.optimizer_with_attributes() do
-    return Juniper.Optimizer(nl_solver = IPOPT, log_levels = [])
+    return Juniper.Optimizer(; nl_solver = IPOPT, log_levels = [])
 end
 
 const NLP_SOLVERS = [IPOPT]
@@ -25,9 +26,15 @@ const MIPOLY_SOLVERS = [JUNIPER]
         )
         MINLPTests.test_directory("nlp", solver, include = ["001_010"])
         MINLPTests.test_nlp_cvx(solver)
+        MINLPTests.test_nlp_expr(solver; exclude = ["005_011"])
+        MINLPTests.test_nlp_cvx_expr(solver)
     end
     @testset "$(solver): nlp_mi" for solver in MINLP_SOLVERS
         MINLPTests.test_nlp_mi(solver, exclude = [
+            "005_011",  # Uses the function `\`
+            "006_010",  # Bug in Juniper - handling of user-defined functions.
+        ])
+        MINLPTests.test_nlp_mi_expr(solver, exclude = [
             "005_011",  # Uses the function `\`
             "006_010",  # Bug in Juniper - handling of user-defined functions.
         ])

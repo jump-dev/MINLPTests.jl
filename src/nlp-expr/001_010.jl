@@ -26,4 +26,3 @@ function nlp_expr_001_010(
     check_objective(model, -1.3678794486503105, tol = objective_tol)
     return check_solution([x, y, z], [-1, pi, 1], tol = primal_tol)
 end
-

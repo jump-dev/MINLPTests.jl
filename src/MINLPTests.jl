@@ -85,7 +85,8 @@ end
 ### Loop through and include every model function.
 ###
 
-for directory in ["nlp", "nlp-cvx", "nlp-mi"]
+for directory in
+    ["nlp", "nlp-cvx", "nlp-mi", "nlp-expr", "nlp-cvx-expr", "nlp-mi-expr"]
     files = readdir(joinpath(@__DIR__, directory))
     for file_name in filter(f -> endswith(f, ".jl"), files)
         include(joinpath(@__DIR__, directory, file_name))
@@ -184,73 +185,36 @@ end
 ### Helper functions to test a subset of models.
 ###
 
-function test_nlp(
-    optimizer;
-    debug::Bool = false,
-    exclude = String[],
-    objective_tol = OPT_TOL,
-    primal_tol = PRIMAL_TOL,
-    dual_tol = DUAL_TOL,
-    termination_target = TERMINATION_TARGET_LOCAL,
-    primal_target = PRIMAL_TARGET_LOCAL,
-)
-    return test_directory(
-        "nlp",
+for (f, str) in [
+    :test_nlp => "nlp",
+    :test_nlp_cvx => "nlp-cvx",
+    :test_nlp_mi => "nlp-mi",
+    :test_nlp_expr => "nlp-expr",
+    :test_nlp_cvx_expr => "nlp-cvx-expr",
+    :test_nlp_mi_expr => "nlp-mi-expr",
+]
+    @eval function $f(
         optimizer;
-        debug = debug,
-        exclude = exclude,
-        objective_tol = objective_tol,
-        primal_tol = primal_tol,
-        dual_tol = dual_tol,
-        termination_target = termination_target,
-        primal_target = primal_target,
+        debug::Bool = false,
+        exclude = String[],
+        objective_tol = OPT_TOL,
+        primal_tol = PRIMAL_TOL,
+        dual_tol = DUAL_TOL,
+        termination_target = TERMINATION_TARGET_LOCAL,
+        primal_target = PRIMAL_TARGET_LOCAL,
     )
-end
-
-function test_nlp_cvx(
-    optimizer;
-    debug::Bool = false,
-    exclude = String[],
-    objective_tol = OPT_TOL,
-    primal_tol = PRIMAL_TOL,
-    dual_tol = DUAL_TOL,
-    termination_target = TERMINATION_TARGET_LOCAL,
-    primal_target = PRIMAL_TARGET_LOCAL,
-)
-    return test_directory(
-        "nlp-cvx",
-        optimizer;
-        debug = debug,
-        exclude = exclude,
-        objective_tol = objective_tol,
-        primal_tol = primal_tol,
-        dual_tol = dual_tol,
-        termination_target = termination_target,
-        primal_target = primal_target,
-    )
-end
-
-function test_nlp_mi(
-    optimizer;
-    debug::Bool = false,
-    exclude = String[],
-    objective_tol = OPT_TOL,
-    primal_tol = PRIMAL_TOL,
-    dual_tol = DUAL_TOL,
-    termination_target = TERMINATION_TARGET_LOCAL,
-    primal_target = PRIMAL_TARGET_LOCAL,
-)
-    return test_directory(
-        "nlp-mi",
-        optimizer;
-        debug = debug,
-        exclude = exclude,
-        objective_tol = objective_tol,
-        primal_tol = primal_tol,
-        dual_tol = dual_tol,
-        termination_target = termination_target,
-        primal_target = primal_target,
-    )
+        return test_directory(
+            $str,
+            optimizer;
+            debug = debug,
+            exclude = exclude,
+            objective_tol = objective_tol,
+            primal_tol = primal_tol,
+            dual_tol = dual_tol,
+            termination_target = termination_target,
+            primal_target = primal_target,
+        )
+    end
 end
 
 ### Tests that haven't been updated.

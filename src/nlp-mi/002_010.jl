@@ -1,3 +1,8 @@
+# Copyright (c) 2021 MINLPTests.jl contributors
+#
+# Use of this source code is governed by an MIT-style license that can be found
+# in the LICENSE.md file or at https://opensource.org/licenses/MIT.
+
 function nlp_mi_002_010(
     optimizer,
     objective_tol,

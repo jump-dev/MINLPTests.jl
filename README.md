@@ -1,20 +1,20 @@
 # MINLPTests.jl
 
-This is a collection of JuMP models for testing nonlinear/polynomial solvers 
+This is a collection of JuMP models for testing nonlinear/polynomial solvers
 with and without discrete variables in JuMP.
 
-This version is compatible with the current release of JuMP (using 
+This version is compatible with the current release of JuMP (using
 MathOptInterface).
 
 [![Build Status](https://github.com/jump-dev/MINLPTests.jl/workflows/CI/badge.svg?branch=master)](https://github.com/jump-dev/MINLPTests.jl/actions?query=workflow%3ACI)
 ## Test Design Guidelines
 
-* The tests are organized into broad categories based on the scope of typical 
+* The tests are organized into broad categories based on the scope of typical
   (e.g. continuous, convex functions, polynomial, ...)
-* Unit tests for JuMP integration testing should be "easy" models.  For example, 
-  it should be possible for a non-global solver to find the global solution in 
+* Unit tests for JuMP integration testing should be "easy" models.  For example,
+  it should be possible for a non-global solver to find the global solution in
   these tests
-* Mathematical property tests can be more difficult but should strive to be as 
+* Mathematical property tests can be more difficult but should strive to be as
   simple as possible
 
 ## Test Naming Conventions
@@ -71,7 +71,6 @@ z indicates a variant of a base problem
 * non-linear functions
   * \* (nlp/004_010)
   * / (nlp/005_010)
-  * \ (nlp/005_011)
   * ^ (nlp/001_010)
   * sqrt (nlp/003_010)
   * abs (nlp/004_010)
@@ -115,7 +114,6 @@ z indicates a variant of a base problem
 * non-linear functions
   * \* (nlp-mi/004_010)
   * / (nlp-mi/005_010)
-  * \ (nlp-mi/005_011)
   * ^ (nlp-mi/001_010)
   * sqrt (nlp-mi/003_010)
   * abs (nlp-mi/004_010)

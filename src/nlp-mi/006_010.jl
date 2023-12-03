@@ -52,10 +52,6 @@ function nlp_mi_006_010(
     optimize!(model)
 
     check_status(model, FEASIBLE_PROBLEM, termination_target, primal_target)
-    check_objective(model, 1.8813786425753092, tol = objective_tol)
-    return check_solution(
-        [x, y],
-        [0.7546057578960682, 1.1267728846792409],
-        tol = primal_tol,
-    )
+    check_objective(model, 1 + log(2), tol = objective_tol)
+    return check_solution([x, y], [log(2), 1.0], tol = primal_tol)
 end

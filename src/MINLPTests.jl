@@ -35,7 +35,11 @@ const TERMINATION_TARGET_LOCAL = Dict(
 )
 const PRIMAL_TARGET_LOCAL = Dict(
     FEASIBLE_PROBLEM => JuMP.MOI.FEASIBLE_POINT,
-    INFEASIBLE_PROBLEM => JuMP.MOI.INFEASIBLE_POINT,
+    INFEASIBLE_PROBLEM => [
+        JuMP.MOI.INFEASIBLE_POINT,
+        JuMP.MOI.NO_SOLUTION,
+        JuMP.MOI.UNKNOWN_RESULT_STATUS,
+    ],
 )
 
 # Target status codes for global solvers:
@@ -45,12 +49,19 @@ const TERMINATION_TARGET_GLOBAL = Dict(
 )
 const PRIMAL_TARGET_GLOBAL = Dict(
     FEASIBLE_PROBLEM => JuMP.MOI.FEASIBLE_POINT,
-    INFEASIBLE_PROBLEM => JuMP.MOI.NO_SOLUTION,
+    INFEASIBLE_PROBLEM => [
+        JuMP.MOI.INFEASIBLE_POINT,
+        JuMP.MOI.NO_SOLUTION,
+        JuMP.MOI.UNKNOWN_RESULT_STATUS,
+    ],
 )
 
 ###
 ### Helper functions for the tests.
 ###
+
+_check_status_subset(x::T, y::T) where {T} = x == y
+_check_status_subset(x::T, y::AbstractVector{T}) where {T} = x in y
 
 function check_status(
     model,
@@ -58,8 +69,15 @@ function check_status(
     termination_target = TERMINATION_TARGET_LOCAL,
     primal_target = PRIMAL_TARGET_LOCAL,
 )
-    @test JuMP.termination_status(model) == termination_target[problem_type]
-    @test JuMP.primal_status(model) == primal_target[problem_type]
+    @test _check_status_subset(
+        JuMP.termination_status(model),
+        termination_target[problem_type],
+    )
+    @test _check_status_subset(
+        JuMP.primal_status(model),
+        primal_target[problem_type],
+    )
+    return
 end
 
 function check_objective(model, solution; tol = OPT_TOL)

@@ -18,7 +18,7 @@ function nlp_008_010(
 
     @variable(model, x)
     @variable(model, y)
-    @variable(model, z)
+    @variable(model, 0 <= z <= 1)
 
     @NLobjective(model, Min, x + y^2 + z^3)
     c1 = @NLconstraint(model, y >= exp(-x - 2) + exp(-z - 2) - 2)

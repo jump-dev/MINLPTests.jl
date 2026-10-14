@@ -22,7 +22,7 @@ function nlp_mi_expr_001_010(
     model = Model(optimizer)
 
     @variable(model, x, start = 1)
-    @variable(model, y >= 0.1, start = 3.12, Int)
+    @variable(model, 0.1 <= y <= 10, start = 3.12, Int)
     @variable(model, z >= 1)
 
     @objective(model, Min, x * exp(x) + cos(y) + z^3 - z^2)
